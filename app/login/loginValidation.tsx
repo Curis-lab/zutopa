@@ -1,19 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { FormField } from "@/components/form-field";
 import { signIn } from "next-auth/react";
 import axios from "axios";
+import { redirect } from "next/dist/server/api-utils";
 
 const FormValidation = () => {
+  const defaultForm = {email:"",password:"",firstName:"",lastName:""}
   const [action, setAction] = useState("login");
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-  });
+  const [formData, setFormData] = useState(defaultForm);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -30,11 +27,10 @@ const FormValidation = () => {
         password: formData?.password,
       });
     } else {
-      console.log('touching registeration file');
       axios
         .post("/api/register", formData)
         .then(() => {
-          console.log("registeration is success");
+          setFormData(defaultForm);
         })
         .catch((error) => {
           console.log("Error");
@@ -42,6 +38,8 @@ const FormValidation = () => {
     }
   };
 
+  useEffect(()=>{setAction('login');},[])
+  
   return (
     <>
       <h2 className="text-5xl font-extralight ">

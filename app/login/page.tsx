@@ -1,4 +1,3 @@
-import LoginNav from "./login-nav";
 import FormValidation from "./loginValidation";
 
 const login = () => {
