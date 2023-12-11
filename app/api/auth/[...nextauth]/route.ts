@@ -1,5 +1,6 @@
+
+import bcrypt from "bcrypt";
 import { db } from "@/libs/prisma.server";
-import next from "next";
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import CredentialProvider from "next-auth/providers/credentials";
@@ -21,20 +22,28 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if(!credentials?.email || !credentials?.password){
-          return null;
+          throw new Error("Invalid credentials");
         }
         const user = await db.user.findUnique({
           where:{
             email: credentials.email
           }
         });
-        if(user){
-          //check password
+        if(!user || !user.password){
+          throw new Error('Invalid credentials');
+        }
+
+        const isCorrectPassword = await bcrypt.compare(credentials.password, user.password);
+        if(!isCorrectPassword){
+          throw new Error("Invalid credentials");
         }
         return user;
       },
     }),
   ],
+  pages:{
+    signIn:'/'
+  }
 };
 
 const handler = NextAuth(authOptions);

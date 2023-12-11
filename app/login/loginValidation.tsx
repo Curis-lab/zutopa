@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import { FormField } from "@/components/form-field";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import axios from "axios";
 import { redirect } from "next/dist/server/api-utils";
 
@@ -33,7 +33,7 @@ const FormValidation = () => {
           setFormData(defaultForm);
         })
         .catch((error) => {
-          console.log("Error");
+          console.log(error);
         });
     }
   };
@@ -89,6 +89,7 @@ const FormValidation = () => {
         >
           Register
         </div>
+        <button onClick={()=>signOut()}>Sign out</button>
       </div>
     </>
   );
