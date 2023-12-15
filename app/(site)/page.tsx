@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import { signIn, signOut } from "next-auth/react";
-import { SignOut } from "./auth";
+import { SignOut } from "../auth";
 import { Layout } from "@/components/layout";
 import { UserPanel } from "@/components/user-panel";
 import { getOtherUsers, getUserByEmail } from "@/libs/user.server";
