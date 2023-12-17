@@ -1,16 +1,19 @@
 "use client";
 
+import axios from "axios";
+import toast from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
 
 import { FormField } from "@/components/form-field";
-import { signIn, signOut, useSession } from "next-auth/react";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Vairant = "LOGIN" | "REGISTER";
 
-const FormValidation = () => {
+const LoginForm = () => {
   const session = useSession();
+
+  const router = useRouter();
 
   const defaultForm = { email: "", password: "", firstName: "", lastName: "" };
   const [variant, setVariant] = useState<Vairant>("LOGIN");
@@ -19,7 +22,7 @@ const FormValidation = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      console.log("authenicated");
+      router.push('/');
     }
   }, [session?.status]);
 
@@ -39,7 +42,6 @@ const FormValidation = () => {
   }, [variant]);
 
   const onSubmit = async () => {
-    //send data to authentication
     if (variant === "LOGIN") {
       signIn("credentials", {
         email: formData?.email,
@@ -52,14 +54,15 @@ const FormValidation = () => {
           }
           if (callback?.ok) {
             toast.success("Logged in!");
+            router.push('/');
           }
         })
         .finally(() => setIsLoading(false));
     } else {
       axios
         .post("/api/register", formData)
-        .then(() => {
-          setFormData(defaultForm);
+        .then((data) => {
+          signIn('credentials',{email: formData?.email, password: formData?.password})
         })
         .catch(() => {
           toast.error("Invalid Registration");
@@ -75,7 +78,7 @@ const FormValidation = () => {
         Sign in to your account
       </p>
       <div className="p-6 w-96">
-        {variant === "REGISTER" ? (
+        {variant === "REGISTER" && (
           <>
             <FormField
               htmlFor="firstName"
@@ -90,7 +93,7 @@ const FormValidation = () => {
               onChange={(e) => handleChange(e, "lastName")}
             />
           </>
-        ) : null}
+        )}
         <FormField
           htmlFor="email"
           label="Email"
@@ -108,7 +111,7 @@ const FormValidation = () => {
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
           onClick={onSubmit}
         >
-          {variant === 'LOGIN'? 'Sign in':'Register'}
+          {variant === "LOGIN" ? "Sign in" : "Register"}
         </button>
         <div className="mt-6">
           <div className="relative">
@@ -137,4 +140,4 @@ const FormValidation = () => {
   );
 };
 
-export default FormValidation;
+export default LoginForm;
