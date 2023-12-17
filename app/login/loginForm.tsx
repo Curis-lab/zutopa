@@ -9,15 +9,15 @@ import { FormField } from "@/components/form-field";
 import { useRouter } from "next/navigation";
 
 type Vairant = "LOGIN" | "REGISTER";
+const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
   const session = useSession();
 
   const router = useRouter();
 
-  const defaultForm = { email: "", password: "", firstName: "", lastName: "" };
   const [variant, setVariant] = useState<Vairant>("LOGIN");
-  const [formData, setFormData] = useState(defaultForm);
+  const [formData, setFormData] = useState(DEFAULT_FORM);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -61,9 +61,6 @@ const LoginForm = () => {
     } else {
       axios
         .post("/api/register", formData)
-        .then((data) => {
-          signIn('credentials',{email: formData?.email, password: formData?.password})
-        })
         .catch(() => {
           toast.error("Invalid Registration");
         })
