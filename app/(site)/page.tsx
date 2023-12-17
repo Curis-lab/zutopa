@@ -1,12 +1,11 @@
-import { Layout } from "@/components/layout";
-import { UserPanel } from "@/components/user-panel";
+import LoginForm from "./login-form";
 
-export default async function Home() {
+const login = () => {
   return (
-    <Layout>
-      <div className="h-full flex">
-        <UserPanel/>
-      </div>
-    </Layout>
+    <div className="h-full justify-center items-center flex flex-col gap-y-4">
+      <LoginForm/>
+    </div>
   );
-}
+};
+
+export default login;

@@ -22,7 +22,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push('/');
+      router.push('/home');
     }
   }, [session?.status]);
 
@@ -54,7 +54,7 @@ const LoginForm = () => {
           }
           if (callback?.ok) {
             toast.success("Logged in!");
-            router.push('/');
+            router.push('/home');
           }
         })
         .finally(() => setIsLoading(false));
