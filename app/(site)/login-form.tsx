@@ -61,6 +61,9 @@ const LoginForm = () => {
     } else {
       axios
         .post("/api/register", formData)
+        .then(()=>{
+          signIn('credentials', formData);
+          setFormData(DEFAULT_FORM);})
         .catch(() => {
           toast.error("Invalid Registration");
         })
