@@ -9,6 +9,7 @@ interface FormFieldProps {
   value: any;
   onChange?: (...args: any) => any;
   error?: string;
+  dataTest?:string
 }
 
 export function FormField({
@@ -18,6 +19,7 @@ export function FormField({
   value,
   onChange = () => {},
   error = "",
+  dataTest
 }: FormFieldProps) {
   const [errorText, setErrorText] = useState(error);
 
@@ -40,6 +42,7 @@ export function FormField({
         name={htmlFor}
         className="w-full p-2 rounded-xl my-2 text-black"
         value={value}
+        data-test={dataTest}
       />
       <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full">
         {errorText || ""}

@@ -73,7 +73,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <h2>Zutopia</h2>
+      <h2 data-test="header">Zutopia</h2>
       <p className="text-3xl font-bold tracking-tight mt-6">
         Sign in to your account
       </p>
@@ -81,6 +81,7 @@ const LoginForm = () => {
         {variant === "REGISTER" && (
           <>
             <FormField
+              dataTest="firstName"
               htmlFor="firstName"
               label="First Name"
               value={formData.firstName}

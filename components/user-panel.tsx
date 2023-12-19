@@ -10,7 +10,7 @@ interface props {
 
 export function UserPanel({ users }: props) {
   return (
-    <div className="w-1/6 bg-gray-200 flex flex-col">
+    <div className="w-1/6 bg-gray-200 flex flex-col h-screen">
       <div className="text-center bg-gray-300 h-20 flex items-center justify-center">
         <h2 className="text-xl text-black font-semibold">Zutopa</h2>
       </div>
