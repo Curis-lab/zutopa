@@ -3,4 +3,7 @@ describe('template spec', () => {
     cy.visit('/');
     cy.get('[data-test="header"]').should('contain.text','Zutopia');
   })
+  it('InputField work correctly',()=>{
+    cy.visit('/');  
+  })
 })
