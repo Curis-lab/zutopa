@@ -12,6 +12,10 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
+
+Cypress.Commands.add("getDataTest", (dataTest:string) => {
+  return cy.get(`[data-test="${dataTest}"]`);
+});
 //
 //
 // -- This is a child command --
