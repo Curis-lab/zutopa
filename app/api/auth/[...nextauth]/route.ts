@@ -7,9 +7,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
-  session: {
-    strategy: "jwt",
-  },
   providers: [
     CredentialProvider({
       name: "sign in",
@@ -33,21 +30,25 @@ export const authOptions: NextAuthOptions = {
         if (!user || !user.password) {
           throw new Error("Invalid credentials");
         }
-
+        
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.password
-        );
-        if (!isCorrectPassword) {
-          throw new Error("Invalid credentials");
-        }
-        return user;
-      },
-    }),
-  ],
-  pages: {
-    signIn: "/",
-  },
+          );
+          if (!isCorrectPassword) {
+            throw new Error("Invalid credentials");
+          }
+          return user;
+        },
+      }),
+    ],
+    pages: {
+      signIn: "/",
+    },
+    session: {
+      strategy: "jwt",
+      maxAge: 30*24*60*60, //30days
+    },
   debug: process.env.NODE_ENV === "development",
   secret: process.env.NEXTAUTH_SECRET,
 };

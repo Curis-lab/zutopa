@@ -77,6 +77,7 @@ const LoginForm = () => {
       <p className="text-3xl font-bold tracking-tight mt-6">
         Sign in to your account
       </p>
+      <input type="text" id="user-ssn" value="123-45-883"/>
       <div className="p-6 w-96">
         {variant === "REGISTER" && (
           <>
@@ -111,6 +112,7 @@ const LoginForm = () => {
           type="submit"
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
           onClick={onSubmit}
+          data-test="submit"
         >
           {variant === "LOGIN" ? "Sign in" : "Register"}
         </button>
