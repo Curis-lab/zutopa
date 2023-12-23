@@ -5,10 +5,9 @@ import { UserCircle } from "./user-circle";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import { getUser } from "@/app/actions/getCurrentUser";
 
 interface props {
-  users?: User[];
+  users: User[] | null;
 }
 
 export function UserPanel({ users }: props) {
@@ -19,10 +18,11 @@ export function UserPanel({ users }: props) {
 
   useEffect(()=>{
     if(session?.status === 'authenticated'){
-      console.log('authenticated');
       router.push('/home');   
     }
   },[session]);
+
+  
   return (
     <div className="w-1/6 bg-gray-200 flex flex-col h-screen">
       <div className="text-center bg-gray-300 h-20 flex items-center justify-center">

@@ -1,16 +1,16 @@
 import { db } from "@/libs/prisma.server";
-import { getSession } from "next-auth/react";
+import getSession from "./getSession";
 
 export const getOtherUsers = async () => {
   const session = await getSession();
-  console.log(session);
+
   if (!session?.user?.email) {
     return null;
   }
 
   return await db.user.findMany({
     where: {
-      id: { not: session?.user?.email },
+      email: { not: session?.user?.email },
     },
     orderBy: {
       profile: {

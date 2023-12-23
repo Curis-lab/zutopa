@@ -1,13 +1,14 @@
-import { db } from "@/libs/prisma.server"
-import { NextApiRequest} from "next"
+import { db } from "@/libs/prisma.server";
 import getSession from "./getSession";
 
-export const getUserByEmail = async (email:string)=>{
-    const session = await getSession();
-    console.log(session);
-    return await db.user.findUnique({
-        where:{
-            email: email
-        }
-    })
-}
+export const getCurrentUser = async () => {
+  const session = await getSession();
+  if (!session?.user?.email) {
+    return null;
+  }
+  return await db.user.findUnique({
+    where: {
+      email: session?.user?.email,
+    },
+  });
+};

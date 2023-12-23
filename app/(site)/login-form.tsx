@@ -77,7 +77,6 @@ const LoginForm = () => {
       <p className="text-3xl font-bold tracking-tight mt-6">
         Sign in to your account
       </p>
-      <input type="text" id="user-ssn" value="123-45-883"/>
       <div className="p-6 w-96">
         {variant === "REGISTER" && (
           <>
