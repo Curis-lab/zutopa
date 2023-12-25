@@ -28,7 +28,7 @@ const SelectBox = (
   return <div>
     <label className="font-semibold">{label}</label>
     <div className={`flex items-center ${containerClassName} my-2`}>
-        <select className={`${className} appearance-none`}>
+        <select className={`${className} appearance-none`} id={id} name={name} onChange={onChange} value={value || ''}>
             {options.map(option=>(
                 <option key={option.name} value={option.value}>
                     {option.name}

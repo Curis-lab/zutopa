@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ToasterContext from "./context/toastContext";
 import AuthContext from "./context/AuthContext";
+import ZutoModal from "@/components/modal/zudo-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <div className="h-screen w-full bg-cyan-950">
           <AuthContext>
             <ToasterContext />
+            <ZutoModal isOpen/>
             {children}
           </AuthContext>
         </div>
