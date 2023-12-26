@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 
-import Modal from "@/components/modal/modals";
 import SelectBox from "@/components/select-box";
 import { colorMap, emojiMap } from "@/libs/constant";
+import useZutoModal from "@/app/hooks/use-zuto-modal";
 
 interface IFrom {
   message: string;
@@ -14,11 +14,11 @@ interface IFrom {
     emoji: string;
   };
 }
-interface IZutoModal{
-    isOpen:boolean
-}
 
-const ZutoModal = ({isOpen}: IZutoModal) => {
+const ZutoModal = () => {
+
+  // const [isOpen, setIsOpen] = useState<boolean>(true);
+  const zudoModal = useZutoModal();
   const [formData, setFormData] = useState<IFrom>({
     message: "",
     style: { background: "", text: "", emoji: "" },
@@ -49,16 +49,12 @@ const ZutoModal = ({isOpen}: IZutoModal) => {
     }
   };
 
-  if(!isOpen){
-    return null;
-  }
   return (
-    <Modal>
       <>
         <div className="flex flex-col md:flex-row gap-y-2 md:gap-y-0">
           <div className="text-center flex flex-col items-center gap-y-2 pr-8">
-            {/* <UserCircle/> */}
-            <p>{JSON.stringify(formData)}</p>
+            <p>Zudo Modal</p>
+            <button onClick={()=>{zudoModal.onClose()}}>Close</button>
           </div>
           <div className="flex-1 flex flex-col gap-y-4">
             <textarea
@@ -105,7 +101,6 @@ const ZutoModal = ({isOpen}: IZutoModal) => {
         <br />
         <div>{/* zuto */}</div>
       </>
-    </Modal>
   );
 };
 
