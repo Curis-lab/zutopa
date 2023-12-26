@@ -5,16 +5,13 @@ import { UserCircle } from "./user-circle";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useZutoModal from "@/app/hooks/use-zuto-modal";
 
 interface props {
   users: User[] | null;
 }
 
 export function UserPanel({ users }: props) {
-  const zudoModal = useZutoModal();
   const session = useSession();
-
   const router = useRouter();
 
   useEffect(() => {
@@ -37,9 +34,8 @@ export function UserPanel({ users }: props) {
               className="h-24 w-24 mx-auto flex-shrink-0"
               onClick={
                 () => {
-                  //set data on profile
-                  zudoModal.onOpen();
-                } //navigate(`/home/${user.id}`)
+                  router.push(`/home/${user.id}`);
+                }
               }
             />
           ))}
