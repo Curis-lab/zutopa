@@ -1,11 +1,16 @@
+import { getUserById } from "@/app/actions/getCurrentUser";
 import Modal from "@/components/modal/modals";
 import ZutoModal from "@/components/modal/zudo-modal";
 
-const MakeZudo = () => {
-  //show background as home route
+interface IParams {
+  user: string;
+}
+
+const MakeZudo = async ({ params }: { params: IParams }) => {
+  const recipient = await getUserById(params);
   return (
     <Modal isOpen={true} className="w-2/3 p-10">
-      <ZutoModal />
+      <ZutoModal recipient={recipient} />
     </Modal>
   );
 };

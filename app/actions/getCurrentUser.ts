@@ -12,3 +12,29 @@ export const getCurrentUser = async () => {
     },
   });
 };
+
+interface IParams{
+  user:string
+}
+
+export const getUserById = async(params:IParams)=>{
+
+  const recipientData =  await db.user.findUnique({
+  where:{
+      id:params.user[0] as string
+    }
+  })
+
+  if(!recipientData){
+    return {
+      id: '',
+      email:'',
+      profile:{firstName:'',lastName:''}
+    };
+  }
+  return {
+    id: recipientData.id,
+    email: recipientData.email,
+    profile:{firstName: recipientData.profile.firstName, lastName: recipientData.profile.lastName}
+  }
+}

@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 
-import Zudo from "../zudo";
 import SelectBox from "@/components/select-box";
 
 import { colorMap, emojiMap } from "@/libs/constant";
-import { useParams } from "next/navigation";
+import { User } from "@prisma/client";
+import Zudo from "../zudo";
+import { IGetUserById } from "@/app/types";
 
 interface IFrom {
   message: string;
@@ -17,9 +18,12 @@ interface IFrom {
   };
 }
 
-const ZutoModal = () => {
+interface IZudoModal{
+  recipient: IGetUserById
+}
 
-  const params = useParams();
+const ZutoModal = ({recipient}:IZudoModal) => {
+  
 
   const [formData, setFormData] = useState<IFrom>({
     message: "",
@@ -101,7 +105,7 @@ const ZutoModal = () => {
       </div>
       <br />
       <div>
-        {/* <Zudo profile={profile}/> */}
+        <Zudo profile={recipient.profile}/>
       </div>
     </>
   );
