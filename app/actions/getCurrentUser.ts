@@ -33,13 +33,13 @@ export const getUserById = async(params:IParams)=>{
     return {
       id: '',
       email:'',
-      profile:{firstName:'',lastName:''}
+      profile:{firstName:'',lastName:'', department: null},
     };
   }
+  
   return {
     id: recipientData.id,
     email: recipientData.email,
-    profile:{firstName: recipientData.profile.firstName, lastName: recipientData.profile.lastName}
+    profile:{firstName: recipientData.profile.firstName, lastName: recipientData.profile.lastName, department: recipientData.profile?.department}
   }
 }
-

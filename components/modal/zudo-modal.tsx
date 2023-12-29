@@ -5,31 +5,23 @@ import React, { useState } from "react";
 import SelectBox from "@/components/select-box";
 
 import { colorMap, emojiMap } from "@/libs/constant";
-import { User } from "@prisma/client";
 import Zudo from "../zudo";
-import { IGetUserById } from "@/app/types";
+import { IFrom, IGetUserById } from "@/app/types";
+import { UserCircle } from "../user-circle";
+import { Zuto, ZutoStyle } from "@prisma/client";
 
-interface IFrom {
-  message: string;
-  style: {
-    background: string;
-    text: string;
-    emoji: string;
-  };
+
+interface IZudoModal {
+  recipient: IGetUserById;
 }
 
-interface IZudoModal{
-  recipient: IGetUserById
-}
-
-const ZutoModal = ({recipient}:IZudoModal) => {
-  
-
+const ZutoModal = ({ recipient }: IZudoModal) => {
   const [formData, setFormData] = useState<IFrom>({
     message: "",
-    style: { background: "", text: "", emoji: "" },
+    style: { backgroundColor: 'WHITE', textColor: 'WHITE', emoji:'HANDSUP' },
   });
 
+  console.log(formData);
   const getOptions = (data: any) =>
     Object.keys(data).reduce((acc: any[], curr) => {
       acc.push({
@@ -59,7 +51,11 @@ const ZutoModal = ({recipient}:IZudoModal) => {
     <>
       <div className="flex flex-col md:flex-row gap-y-2 md:gap-y-0">
         <div className="text-center flex flex-col items-center gap-y-2 pr-8">
-          <p>Zudo Modal</p>
+          <UserCircle profile={recipient.profile} className="w-24 h-24" />
+          <p className="text-blue-300">{recipient.profile.firstName} {recipient.profile.lastName}</p>
+          {
+            recipient.profile.department &&(<span className="px-2 py-1 bg-gray-300 rounded-xl text-blue-300 w-auto">{recipient.profile.department[0].toUpperCase() + recipient.profile.department.toLowerCase().slice(1)}</span>)
+          }
         </div>
         <div className="flex-1 flex flex-col gap-y-4">
           <textarea
@@ -72,15 +68,14 @@ const ZutoModal = ({recipient}:IZudoModal) => {
             }}
           />
           <div className="flex flex-col items-center md:flex-row md:justify-start gap-x-4">
-            {/*selected box */}
             <SelectBox
               options={colors}
               name="backgroundColor"
               label="Background Color"
               containerClassName="w-36"
               className="w-full rounded-xl px-3 py-2 text-gray-400"
-              value={formData.style.background}
-              onChange={(e) => handleChange(e, "background")}
+              value={formData.style.backgroundColor}
+              onChange={(e) => handleChange(e, "backgroundColor")}
             />
             <SelectBox
               options={colors}
@@ -88,8 +83,8 @@ const ZutoModal = ({recipient}:IZudoModal) => {
               label="Text Color"
               containerClassName="w-36"
               className="w-full rounded-xl px-3 py-2 text-gray-400"
-              value={formData.style.text}
-              onChange={(e) => handleChange(e, "text")}
+              value={formData.style.textColor}
+              onChange={(e) => handleChange(e, "textColor")}
             />
             <SelectBox
               options={emojis}
@@ -105,7 +100,7 @@ const ZutoModal = ({recipient}:IZudoModal) => {
       </div>
       <br />
       <div>
-        <Zudo profile={recipient.profile}/>
+        <Zudo profile={recipient.profile} zuto={formData}/>
       </div>
     </>
   );
