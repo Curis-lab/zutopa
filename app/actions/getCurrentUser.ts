@@ -1,3 +1,5 @@
+// produce: only one user info
+
 import { db } from "@/libs/prisma.server";
 import getSession from "./getSession";
 
@@ -12,6 +14,8 @@ export const getCurrentUser = async () => {
     },
   });
 };
+
+
 
 interface IParams{
   user:string
@@ -38,3 +42,4 @@ export const getUserById = async(params:IParams)=>{
     profile:{firstName: recipientData.profile.firstName, lastName: recipientData.profile.lastName}
   }
 }
+

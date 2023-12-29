@@ -1,3 +1,5 @@
+// produce: output many user
+
 import { db } from "@/libs/prisma.server";
 import getSession from "./getSession";
 
