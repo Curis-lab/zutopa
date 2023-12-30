@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" >
+      <body className={inter.className} suppressHydrationWarning={true}>
         <div className="h-screen w-full bg-cyan-950">
           <AuthContext>
             <ToasterContext />

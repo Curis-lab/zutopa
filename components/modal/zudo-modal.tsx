@@ -4,12 +4,10 @@ import React, { useState } from "react";
 
 import SelectBox from "@/components/select-box";
 
-import { colorMap, emojiMap } from "@/libs/constant";
+import { backgroundColorMap, colorMap, emojiMap } from "@/libs/constant";
 import Zudo from "../zudo";
 import { IFrom, IGetUserById } from "@/app/types";
 import { UserCircle } from "../user-circle";
-import { Zuto, ZutoStyle } from "@prisma/client";
-
 
 interface IZudoModal {
   recipient: IGetUserById;
@@ -18,19 +16,20 @@ interface IZudoModal {
 const ZutoModal = ({ recipient }: IZudoModal) => {
   const [formData, setFormData] = useState<IFrom>({
     message: "",
-    style: { backgroundColor: 'WHITE', textColor: 'WHITE', emoji:'HANDSUP' },
+    style: { backgroundColor: "GREEN", textColor: "BLUE", emoji: "HANDSUP" },
   });
 
-  console.log(formData);
   const getOptions = (data: any) =>
     Object.keys(data).reduce((acc: any[], curr) => {
       acc.push({
         name: curr.charAt(0).toUpperCase() + curr.slice(1).toLowerCase(),
+        value: curr,
       });
       return acc;
     }, []);
 
-  const colors = getOptions(colorMap);
+  const backgroundColors = getOptions(backgroundColorMap);
+  const textColors = getOptions(colorMap);
   const emojis = getOptions(emojiMap);
 
   const handleChange = (
@@ -52,10 +51,15 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
       <div className="flex flex-col md:flex-row gap-y-2 md:gap-y-0">
         <div className="text-center flex flex-col items-center gap-y-2 pr-8">
           <UserCircle profile={recipient.profile} className="w-24 h-24" />
-          <p className="text-blue-300">{recipient.profile.firstName} {recipient.profile.lastName}</p>
-          {
-            recipient.profile.department &&(<span className="px-2 py-1 bg-gray-300 rounded-xl text-blue-300 w-auto">{recipient.profile.department[0].toUpperCase() + recipient.profile.department.toLowerCase().slice(1)}</span>)
-          }
+          <p className="text-blue-300">
+            {recipient.profile.firstName} {recipient.profile.lastName}
+          </p>
+          {recipient.profile.department && (
+            <span className="px-2 py-1 bg-gray-300 rounded-xl text-blue-300 w-auto">
+              {recipient.profile.department[0].toUpperCase() +
+                recipient.profile.department.toLowerCase().slice(1)}
+            </span>
+          )}
         </div>
         <div className="flex-1 flex flex-col gap-y-4">
           <textarea
@@ -69,7 +73,7 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
           />
           <div className="flex flex-col items-center md:flex-row md:justify-start gap-x-4">
             <SelectBox
-              options={colors}
+              options={backgroundColors}
               name="backgroundColor"
               label="Background Color"
               containerClassName="w-36"
@@ -78,7 +82,7 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
               onChange={(e) => handleChange(e, "backgroundColor")}
             />
             <SelectBox
-              options={colors}
+              options={textColors}
               name="textColor"
               label="Text Color"
               containerClassName="w-36"
@@ -100,7 +104,7 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
       </div>
       <br />
       <div>
-        <Zudo profile={recipient.profile} zuto={formData}/>
+        <Zudo profile={recipient.profile} zuto={formData} />
       </div>
     </>
   );
