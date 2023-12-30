@@ -103,8 +103,16 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
         </div>
       </div>
       <br />
-      <div>
+      <div className="flex flex-col items-center md:flex-row gap-x-24 gap-y-2 md:gap-y-0">
         <Zudo profile={recipient.profile} zuto={formData} />
+        <div className="flex-1">
+          <button
+            type="submit"
+            className="rounded-xl bg-yellow-300 font-semibold text-blue-600 w-80 h-12 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </>
   );
