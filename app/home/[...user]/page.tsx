@@ -8,7 +8,6 @@ interface IParams {
 
 const MakeZudo = async ({ params }: { params: IParams }) => {
   const recipient = await getUserById(params);
-  
   return (
     <Modal isOpen={true} className="w-2/3 p-10">
       <ZutoModal recipient={recipient} />

@@ -1,13 +1,15 @@
 "use client";
 
+import axios from "axios";
 import React, { useState } from "react";
 
+import Zudo from "../zudo";
 import SelectBox from "@/components/select-box";
 
 import { backgroundColorMap, colorMap, emojiMap } from "@/libs/constant";
-import Zudo from "../zudo";
 import { IFrom, IGetUserById } from "@/app/types";
 import { UserCircle } from "../user-circle";
+import { getCurrentUser } from "@/app/actions/getCurrentUser";
 
 interface IZudoModal {
   recipient: IGetUserById;
@@ -46,6 +48,17 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
     }
   };
 
+  const onSubmit = async () => {
+    setFormData((data) => ({ ...data, recipientId: recipient.id }));
+    axios
+      .post("/api/zuto", formData)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <div className="flex flex-col md:flex-row gap-y-2 md:gap-y-0">
@@ -109,6 +122,7 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
           <button
             type="submit"
             className="rounded-xl bg-yellow-300 font-semibold text-blue-600 w-80 h-12 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
+            onClick={() => onSubmit()}
           >
             Send
           </button>

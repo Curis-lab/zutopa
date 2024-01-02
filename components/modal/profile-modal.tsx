@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FormField } from "../form-field";
 import SelectBox from "../select-box";
 import { Department, Profile, User } from "@prisma/client";
+import { UserCircle } from "../user-circle";
 
 interface IUser {
   currentUser: Profile;
@@ -14,7 +15,9 @@ const ProfileModal = ({ currentUser }: IUser) => {
 
   return (
     <div className="flex">
-      <div className="w-1/3">{/*Image Uplading*/}</div>
+      <div className="w-1/3">
+        <UserCircle profile={currentUser} className="h-16 w-16"/>
+      </div>
       <div className="flex-1">
         <FormField
           htmlFor="firstName"
