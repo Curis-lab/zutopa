@@ -16,10 +16,13 @@ interface IZudoModal {
 }
 
 const ZutoModal = ({ recipient }: IZudoModal) => {
-  const [formData, setFormData] = useState<IFrom>({
+  const defaultFormData:IFrom = {
     message: "",
     style: { backgroundColor: "GREEN", textColor: "BLUE", emoji: "HANDSUP" },
-  });
+  };
+
+  const [formData, setFormData] = useState<IFrom>(defaultFormData);
+  
 
   const getOptions = (data: any) =>
     Object.keys(data).reduce((acc: any[], curr) => {
@@ -52,8 +55,8 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
     setFormData((data) => ({ ...data, recipientId: recipient.id }));
     axios
       .post("/api/zuto", formData)
-      .then((data) => {
-        console.log(data);
+      .then(() => {
+        setFormData(defaultFormData);
       })
       .catch((error) => {
         console.log(error);
