@@ -6,7 +6,7 @@ import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
 import { useEffect, useState } from "react";
 
-interface IZudo {
+export interface IZudo {
   profile: Profile;
   zuto?: IFrom;
 }

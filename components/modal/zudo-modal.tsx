@@ -9,7 +9,6 @@ import SelectBox from "@/components/select-box";
 import { backgroundColorMap, colorMap, emojiMap } from "@/libs/constant";
 import { IFrom, IGetUserById } from "@/app/types";
 import { UserCircle } from "../user-circle";
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
 
 interface IZudoModal {
   recipient: IGetUserById;
