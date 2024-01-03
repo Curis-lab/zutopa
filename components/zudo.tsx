@@ -1,6 +1,6 @@
 "use client";
 
-import {emojiMap } from "@/libs/constant";
+import { emojiMap } from "@/libs/constant";
 import { UserCircle } from "./user-circle";
 import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
@@ -29,18 +29,26 @@ const Zudo = ({ profile, zuto }: IZudo) => {
   return (
     <>
       <div
-        className={`flex p-4 rounded-xl w-full gap-x-2 relative ${backgroundColorMap[zuto?.style.backgroundColor || 'BLUE']}`}
+        className={`flex p-4 rounded-xl w-full gap-x-2 relative ${
+          backgroundColorMap[zuto?.style.backgroundColor || "BLUE"]
+        }`}
       >
         <div>
           <UserCircle profile={profile} className="h-16 w-16" />
         </div>
         <div className="flex flex-col">
           <p
-          className={`${colorMap[zuto?.style.textColor || 'BLUE']} font-bold text-lg whitespace-pre-wrap break-all `}
+            className={`${
+              colorMap[zuto?.style.textColor || "BLUE"]
+            } font-bold text-lg whitespace-pre-wrap break-all `}
           >
             {profile.firstName} {profile.lastName}
           </p>
-          <p className={`${colorMap[zuto?.style.textColor || 'BLUE']} whitespace-pre-wrap break-all`}>
+          <p
+            className={`${
+              colorMap[zuto?.style.textColor || "BLUE"]
+            } whitespace-pre-wrap break-all`}
+          >
             {zuto?.message}
           </p>
         </div>
