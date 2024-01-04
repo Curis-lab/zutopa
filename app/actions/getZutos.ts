@@ -1,14 +1,34 @@
+import { IZudo } from "@/components/zudo";
 import { db } from "@/libs/prisma.server"
-import { getCurrentUser } from "./getCurrentUser"
+import { Prisma, Profile } from "@prisma/client";
+import { getProfileById } from "./getCurrentUser";
 
-export const getZutos = async()=>{
-    const currentUser = await getCurrentUser();
-    if(!currentUser){
-        return null;
-    }
-    return db.zuto.findMany({
+
+export const getFilteredZudos = async(
+    userId:string,
+    sortFilter: Prisma.ZutoOrderByWithRelationInput,
+    whereFilter: Prisma.ZutoWhereInput
+)=>{
+    return await db.zuto.findMany({
+        select:{
+            id:true,
+            style:true,
+            message:true,
+            author:{
+                select:{
+                    profile:true
+                }
+            }
+        },
+        orderBy:{
+            ...sortFilter
+        },
         where:{
-            authorId: currentUser.id
+            recipientId: userId,
+            ...whereFilter
         }
     })
+}
+export const getZutos = async()=>{
+    return await db.zuto.findMany({});
 }

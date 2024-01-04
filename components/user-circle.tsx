@@ -1,6 +1,6 @@
 "use client";
 
-import { Department, Profile } from "@prisma/client";
+import { Department } from "@prisma/client";
 
 interface IProfile{
     firstName:string,

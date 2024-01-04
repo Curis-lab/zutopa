@@ -2,6 +2,8 @@
 
 import { db } from "@/libs/prisma.server";
 import getSession from "./getSession";
+import { Profile } from "@prisma/client";
+import { Press_Start_2P } from "next/font/google";
 
 export const getCurrentUser = async () => {
   const session = await getSession();
@@ -21,7 +23,7 @@ interface IParams{
   user:string
 }
 
-export const getUserById = async(params:IParams)=>{
+export const getUserByParams = async(params:IParams)=>{
 
   const recipientData =  await db.user.findUnique({
   where:{
@@ -41,5 +43,14 @@ export const getUserById = async(params:IParams)=>{
     id: recipientData.id,
     email: recipientData.email,
     profile:{firstName: recipientData.profile.firstName, lastName: recipientData.profile.lastName, department: recipientData.profile?.department}
+  }
+}
+
+export const getProfileById = async(id:string):Promise<Profile| undefined>=>{
+  const person = await db.user.findUnique({
+    where:{id}
+  });
+  if(person){
+    return person.profile
   }
 }

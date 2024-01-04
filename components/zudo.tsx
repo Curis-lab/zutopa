@@ -4,10 +4,9 @@ import { emojiMap } from "@/libs/constant";
 import { UserCircle } from "./user-circle";
 import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
-import { useEffect, useState } from "react";
 
 export interface IZudo {
-  profile: Profile;
+  profile?: Profile;
   zuto?: IFrom;
 }
 
@@ -34,7 +33,7 @@ const Zudo = ({ profile, zuto }: IZudo) => {
         }`}
       >
         <div>
-          <UserCircle profile={profile} className="h-16 w-16" />
+          {profile && <UserCircle profile={profile} className="h-16 w-16" />}
         </div>
         <div className="flex flex-col">
           <p
@@ -42,7 +41,7 @@ const Zudo = ({ profile, zuto }: IZudo) => {
               colorMap[zuto?.style.textColor || "BLUE"]
             } font-bold text-lg whitespace-pre-wrap break-all `}
           >
-            {profile.firstName} {profile.lastName}
+            {profile && `${ profile.firstName}    ${profile.lastName}`}
           </p>
           <p
             className={`${
