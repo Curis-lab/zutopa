@@ -21,3 +21,7 @@ export const getOtherUsers = async () => {
     },
   });
 };
+
+export const getAllUser = async () => {
+  return await db.user.findMany({});
+};

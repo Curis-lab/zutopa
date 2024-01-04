@@ -2,8 +2,7 @@
 
 import { db } from "@/libs/prisma.server";
 import getSession from "./getSession";
-import { Profile } from "@prisma/client";
-import { Press_Start_2P } from "next/font/google";
+import { Zuto } from "@prisma/client";
 
 export const getCurrentUser = async () => {
   const session = await getSession();
@@ -17,40 +16,45 @@ export const getCurrentUser = async () => {
   });
 };
 
-
-
-interface IParams{
-  user:string
+interface IParams {
+  user: string;
 }
 
-export const getUserByParams = async(params:IParams)=>{
+export const getUserByParams = async (params: IParams) => {
+  const recipientData = await db.user.findUnique({
+    where: {
+      id: params.user[0] as string,
+    },
+  });
 
-  const recipientData =  await db.user.findUnique({
-  where:{
-      id:params.user[0] as string
-    }
-  })
-
-  if(!recipientData){
+  if (!recipientData) {
     return {
-      id: '',
-      email:'',
-      profile:{firstName:'',lastName:'', department: null},
+      id: "",
+      email: "",
+      profile: { firstName: "", lastName: "", department: null },
     };
   }
-  
+
   return {
     id: recipientData.id,
     email: recipientData.email,
-    profile:{firstName: recipientData.profile.firstName, lastName: recipientData.profile.lastName, department: recipientData.profile?.department}
-  }
-}
+    profile: {
+      firstName: recipientData.profile.firstName,
+      lastName: recipientData.profile.lastName,
+      department: recipientData.profile?.department,
+    },
+  };
+};
 
-export const getProfileById = async(id:string):Promise<Profile| undefined>=>{
-  const person = await db.user.findUnique({
-    where:{id}
+export const getProfileById = async (
+  id: string
+)=> {
+  return await db.user.findUnique({
+    where: { id },
   });
-  if(person){
-    return person.profile
   }
-}
+export const ProduceZudo = async(zuto: Zuto) => {
+  const zudo = await db.user.findUnique({where:{id: zuto.recipientId}});
+  
+  return {message: zuto.message, style: zuto.style}
+};
