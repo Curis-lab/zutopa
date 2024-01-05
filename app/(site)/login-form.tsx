@@ -104,6 +104,7 @@ const LoginForm = () => {
         <FormField
           htmlFor="password"
           label="Password"
+          type="password"
           value={formData.password}
           onChange={(e) => handleChange(e, "password")}
         />
