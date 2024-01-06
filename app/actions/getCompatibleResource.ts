@@ -2,9 +2,9 @@ import { IZudo } from "@/components/zudo";
 import { User, Zuto } from "@prisma/client";
 
 
+//Should implement better algorithm
 
 export const getCompatableResource = (zuto:Zuto[], users:User[]):IZudo[]=>{
-    //restructure of all things
     const result:IZudo[] = [];
 
     zuto.map(i=>{

@@ -22,10 +22,11 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push('/home');
+      router.push("/home");
     }
   }, [session?.status]);
 
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
@@ -54,21 +55,52 @@ const LoginForm = () => {
           }
           if (callback?.ok) {
             toast.success("Logged in!");
-            router.push('/home');
+            router.push("/home");
           }
         })
         .finally(() => setIsLoading(false));
     } else {
       axios
         .post("/api/register", formData)
-        .then(()=>{
-          signIn('credentials', formData);
-          setFormData(DEFAULT_FORM);})
+        .then(() => {
+          signIn("credentials", formData);
+          setFormData(DEFAULT_FORM);
+        })
         .catch(() => {
           toast.error("Invalid Registration");
         })
         .finally(() => setIsLoading(false));
     }
+  };
+
+  const validateEmail = (email: string): string | undefined => {
+    var validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    if (!email.length || !validRegex.test(email)) {
+      return `Please enter a valid email address`;
+    }
+  };
+
+  const validatePassword = (password: string): string | undefined => {
+    if (password.length < 5) {
+      return `Please enter a password that is at least 5 characters long`;
+    }
+  };
+
+  const validateName = (name: string): string | undefined => {
+    if (!name.length) return `Please enter a value`;
+  };
+
+  const errors = {
+    email: validateEmail(formData.email),
+    password: validatePassword(formData.password),
+    ...(variant === "REGISTER"
+      ? {
+          firstName: validateName(formData.firstName),
+          lastName: validateName(formData.lastName),
+        }
+      : {}),
   };
 
   return (
@@ -100,6 +132,7 @@ const LoginForm = () => {
           label="Email"
           value={formData.email}
           onChange={(e) => handleChange(e, "email")}
+          error={errors?.email}
         />
         <FormField
           htmlFor="password"
@@ -107,6 +140,7 @@ const LoginForm = () => {
           type="password"
           value={formData.password}
           onChange={(e) => handleChange(e, "password")}
+          error={errors?.password}
         />
         <button
           type="submit"
