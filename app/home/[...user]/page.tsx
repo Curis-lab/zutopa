@@ -6,6 +6,8 @@ interface IParams {
   user: string;
 }
 
+//! should import with different route and upon page
+
 const MakeZudo = async ({ params }: { params: IParams }) => {
   const recipient = await getUserByParams(params);
   return (

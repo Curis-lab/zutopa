@@ -11,12 +11,16 @@ interface IUser {
 }
 
 const ProfileModal = ({ currentUser }: IUser) => {
-  const [formData, setFormData] = useState({ firstName:currentUser.firstName, lastName: currentUser.lastName, department: currentUser.department });
+  const [formData, setFormData] = useState({
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+    department: currentUser.department,
+  });
 
   return (
     <div className="flex">
-      <div className="w-1/3">
-        <UserCircle profile={currentUser} className="h-16 w-16"/>
+      <div className="w-1/3 flex justify-center">
+        <UserCircle profile={currentUser} className="h-24 w-24" />
       </div>
       <div className="flex-1">
         <FormField
