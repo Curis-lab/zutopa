@@ -1,22 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Portal } from "./portal";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface IModal {
-  children: React.ReactNode,
-  isOpen?: boolean,
-  ariaLabel?: string,
-  className?:string
+  children: React.ReactNode;
+  isOpen?: boolean;
+  ariaLabel?: string;
+  className?: string;
 }
 
-const Modal = ({ children, isOpen, ariaLabel ,className}: IModal) => {
-
+const Modal = ({ children, isOpen, ariaLabel, className }: IModal) => {
   const route = useRouter();
+  const pathname = usePathname();
 
-  if (!isOpen) return null;
-
+  if (!isOpen || !(pathname === "/home/profile")) return null;
   return (
     <Portal wrapperId="modal">
       <div
@@ -27,7 +26,9 @@ const Modal = ({ children, isOpen, ariaLabel ,className}: IModal) => {
         onClick={() => route.push("/home")}
       />
       <div className="fixed inset-0 pointer-events-none flex justify-center items-center max-h-screen overflow-scrol">
-        <div className={`${className} p-4 bg-gray-200 pointer-events-auto max-h-screen md:rounded-xl text-black`}>
+        <div
+          className={`${className} p-4 bg-gray-200 pointer-events-auto max-h-screen md:rounded-xl text-black`}
+        >
           {children}
         </div>
       </div>
