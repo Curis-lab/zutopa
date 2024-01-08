@@ -16,14 +16,13 @@ export const getCurrentUser = async () => {
   });
 };
 
-interface IParams {
-  user: string;
-}
 
-export const getUserByParams = async (params: IParams) => {
+
+export const getUserByParams = async (params: string) => {
+  console.log(params);
   const recipientData = await db.user.findUnique({
     where: {
-      id: params.user[0] as string,
+      id: params
     },
   });
 
