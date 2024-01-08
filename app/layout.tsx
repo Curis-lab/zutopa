@@ -12,17 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children,modal
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode,
+  modal: React.ReactNode
 }) {
+  
   return (
     <html lang="en" >
       <body className={inter.className} suppressHydrationWarning={true}>
         <div className="h-screen w-full bg-cyan-950">
           <AuthContext>
-            <ToasterContext />
+            <ToasterContext/>
             {children}
+            {modal}
           </AuthContext>
         </div>
       </body>
