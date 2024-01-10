@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { FormField } from "../form-field";
 import { Department, Profile, User } from "@prisma/client";
 import ImageUploader from "../image-uploader";
@@ -18,7 +18,7 @@ const ProfileModal = ({ currentUser }: IUser) => {
     profilePicture: currentUser?.profilePicture || "",
   });
 
-  const handleFileUpload = async (file: File) => {
+  const handleFileUploadUpdate = async (file: File) => {
     console.log(file);
     let inputFormData = new FormData();
     inputFormData.append('profile-pic', file);
@@ -32,6 +32,18 @@ const ProfileModal = ({ currentUser }: IUser) => {
     setFormData({...formData, profilePicture: 'string'});
     console.log(formData);
   };
+
+  const handleFileUpload = async(file: File)=>{
+    let formData = new FormData();
+    formData.append('profile-pic', file);
+    const response = await fetch('/api/submit',{
+      method:'POST',
+      body: formData
+    });
+    const data = await response.json();
+    console.log('takeing smoe change');
+    console.log(data);
+  }
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
