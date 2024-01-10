@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FormField } from "../form-field";
 import { Department, Profile, User } from "@prisma/client";
 import ImageUploader from "../image-uploader";
+import axios from "axios";
 
 interface IUser {
   currentUser: Profile;
@@ -18,14 +19,18 @@ const ProfileModal = ({ currentUser }: IUser) => {
   });
 
   const handleFileUpload = async (file: File) => {
+    console.log(file);
     let inputFormData = new FormData();
-    inputFormData.append("profile-pic", file);
-    console.log(inputFormData);
+    inputFormData.append('profile-pic', file);
+    
+    console.log('input form', inputFormData);
+    
+    await axios.post('/api/avatar', inputFormData);
 
-    const response = await fetch("/avater", {
-      method: "POST",
-      body: "string",
-    });
+    // const {imageUrl} = await response.json();
+
+    setFormData({...formData, profilePicture: 'string'});
+    console.log(formData);
   };
   return (
     <div className="p-3">
