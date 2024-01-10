@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { FormField } from "../form-field";
-import SelectBox from "../select-box";
 import { Department, Profile, User } from "@prisma/client";
-import { UserCircle } from "../user-circle";
+import ImageUploader from "../image-uploader";
 
 interface IUser {
   currentUser: Profile;
@@ -15,17 +14,31 @@ const ProfileModal = ({ currentUser }: IUser) => {
     firstName: currentUser.firstName,
     lastName: currentUser.lastName,
     department: currentUser.department,
+    profilePicture: currentUser?.profilePicture || "",
   });
 
+  const handleFileUpload = async (file: File) => {
+    let inputFormData = new FormData();
+    inputFormData.append("profile-pic", file);
+    console.log(inputFormData);
+
+    const response = await fetch("/avater", {
+      method: "POST",
+      body: "string",
+    });
+  };
   return (
     <div className="p-3">
-      <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">Your Profile</h2>
-      <div className="text-xs font-semibold text-center">
-        formError
-      </div>
+      <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
+        Your Profile
+      </h2>
+      <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">
         <div className="w-1/3 flex justify-center">
-          <UserCircle profile={currentUser} className="h-24 w-24" />
+          <ImageUploader
+            onChange={handleFileUpload}
+            imageUrl={formData.profilePicture || ""}
+          />
         </div>
         <div className="flex-1">
           <FormField
