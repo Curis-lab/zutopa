@@ -1,3 +1,4 @@
+import { method } from "cypress/types/bluebird";
 import { NextApiRequest, NextApiResponse } from "next";
 
 //
@@ -6,8 +7,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const data = req.body;
-  console.log("data from handler", data);
-
-  res.status(200).json(data);
+  if(req.method){
+    console.log('Posting File');
+  }
+  res.status(201).json({id:1, text:'file'});
 }

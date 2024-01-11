@@ -5,6 +5,7 @@ import { FormField } from "../form-field";
 import { Department, Profile, User } from "@prisma/client";
 import ImageUploader from "../image-uploader";
 import axios from "axios";
+import { PostponedPathnameNormalizer } from "next/dist/server/future/normalizers/request/postponed";
 
 interface IUser {
   currentUser: Profile;
@@ -18,32 +19,33 @@ const ProfileModal = ({ currentUser }: IUser) => {
     profilePicture: currentUser?.profilePicture || "",
   });
 
-  const handleFileUploadUpdate = async (file: File) => {
-    console.log(file);
-    let inputFormData = new FormData();
-    inputFormData.append('profile-pic', file);
-    
-    console.log('input form', inputFormData);
-    
-    await axios.post('/api/avatar', inputFormData);
-
-    // const {imageUrl} = await response.json();
-
-    setFormData({...formData, profilePicture: 'string'});
-    console.log(formData);
+  const handleFileUpload = async (file: File) => {
+    console.log("upload image", file);
+    try {
+      const response = await fetch("/api/avatar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          body: JSON.stringify({ id: 2, text: "From response" }),
+        },
+      });
+      const data = await response.json();
+      console.log("data from handleuploadfile", data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const handleFileUpload = async(file: File)=>{
-    let formData = new FormData();
-    formData.append('profile-pic', file);
-    const response = await fetch('/api/submit',{
-      method:'POST',
-      body: formData
-    });
-    const data = await response.json();
-    console.log('takeing smoe change');
-    console.log(data);
-  }
+  // const handleInputChange = (e:File) =>{
+  //   try{
+  //     const response = await fetch('/api/avatar',{
+  //       method:'POST',
+  //       headers:{
+  //         'Content-Type':'application/json'
+  //       },
+  //       body: JSON.stringify(PostponedPathnameNormalizer)
+  //     })
+  //   }
+  // }
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
