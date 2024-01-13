@@ -5,6 +5,7 @@ import { getCompatableResource } from "../actions/getCompatibleResource";
 import Zudo from "@/components/zudo";
 import SearchBar from "@/components/search-bar";
 import { UserPanel } from "@/components/user-panel";
+import RecentBar from "@/components/recent-bar";
 
 const Home = async () => {
   const otherUsers = await getOtherUsers();
@@ -21,10 +22,13 @@ const Home = async () => {
       <UserPanel users={otherUsers} />
       <div className="flex-1 flex flex-col h-screen">
         <SearchBar profile={currentuser?.profile} />
-        <div className="w-full p-10 flex flex-col gap-y-4">
-          <div className="w-full p-10 flex flex-col gap-y-4 overflow-y-scroll">
+        <div className="flex flex-row h-full w-full">
+          <div className="w-full flex flex-col gap-y-4 overflow-y-scroll">
+          <div className="w-full p-10 flex flex-col gap-y-4">
             {g && g.map((g) => <Zudo profile={g.profile} zuto={g.zuto} />)}
           </div>
+        </div>
+        <RecentBar/>
         </div>
       </div>
     </div>
