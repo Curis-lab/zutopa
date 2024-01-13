@@ -20,37 +20,22 @@ const ProfileModal = ({ currentUser }: IUser) => {
   });
 
   const handleFileUpload = async (file: File) => {
-    console.log("upload image", file);
-    try {
-      const response = await fetch("/api/avatar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          body: JSON.stringify({ id: 2, text: "From response" }),
-        },
-      });
-      const data = await response.json();
-      console.log("data from handleuploadfile", data);
-    } catch (error) {
-      console.log(error);
-    }
+    const formData = new FormData();
+    formData.append("profile-pic", file);
+    await axios.post("/api/image", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((data)=>console.log('success'))
+    .catch((error)=>console.log('Error messaging on profile modal page'));
   };
-  // const handleInputChange = (e:File) =>{
-  //   try{
-  //     const response = await fetch('/api/avatar',{
-  //       method:'POST',
-  //       headers:{
-  //         'Content-Type':'application/json'
-  //       },
-  //       body: JSON.stringify(PostponedPathnameNormalizer)
-  //     })
-  //   }
-  // }
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
+
       <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">
         <div className="w-1/3 flex justify-center">
