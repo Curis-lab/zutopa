@@ -15,9 +15,9 @@ const Home = async () => {
   return (
     <div className="h-full flex">
       <UserPanel users={otherUsers} />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col h-screen">
         <SearchBar/>
-        <div className="w-full p-10 flex flex-col gap-y-4">
+        <div className="w-full p-10 flex flex-col gap-y-4 overflow-y-scroll">
           {g && g.map((g) => <Zudo profile={g.profile} zuto={g.zuto} />)}
         </div>
       </div>
