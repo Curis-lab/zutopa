@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   
   return (
-    <html lang="en" >
+    <html lang="en">
       <body className={inter.className} suppressHydrationWarning={true}>
         <div className="h-screen w-full bg-cyan-950">
           <AuthContext>
