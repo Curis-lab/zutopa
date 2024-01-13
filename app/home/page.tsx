@@ -18,22 +18,18 @@ const Home = async () => {
   const g = getCompatableResource(zutos, users);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       <UserPanel users={otherUsers} />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col h-screen">
         <SearchBar profile={currentuser?.profile} />
-        <div className="flex flex-1">
-          <div className="w-full flex flex-col gap-y-4">
-            {g && g.map((g) => <Zudo profile={g.profile} zuto={g.zuto} />)}
+        <div className="flex flex-row h-full">
+          <div className="flex flex-1 p-10 flex-col h-full overflow-y-scroll">
+            <div className="w-full flex flex-col gap-y-4">
+              {g && g.map((g) => <Zudo profile={g.profile} zuto={g.zuto} />)}
+            </div>
           </div>
           <RecentBar />
         </div>
-        {/* <div className="flex flex-row w-full">
-          <div className="w-full flex flex-col gap-y-4">
-          <div className="w-full p-10 flex flex-col gap-y-4 overflow-y-hidden">
-          </div>
-        </div> */}
-        {/* </div> */}
       </div>
     </div>
   );
