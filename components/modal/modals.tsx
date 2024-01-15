@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Portal } from "./portal";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -13,9 +13,10 @@ interface IModal {
 
 const Modal = ({ children, isOpen, ariaLabel, className }: IModal) => {
   const route = useRouter();
-  const pathname = usePathname();
+  const pathName = usePathname();
 
-  if (!isOpen || (pathname === "/home")) return null;
+  if (!isOpen || (pathName === "/home")) return null;
+
   return (
     <Portal wrapperId="modal">
       <div

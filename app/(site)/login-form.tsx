@@ -10,16 +10,18 @@ import { useRouter } from "next/navigation";
 import { validateEmail, validateName, validatePassword } from "@/libs/validators";
 
 type Vairant = "LOGIN" | "REGISTER";
+
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
+
   const session = useSession();
 
   const router = useRouter();
 
   const [variant, setVariant] = useState<Vairant>("LOGIN");
   const [formData, setFormData] = useState(DEFAULT_FORM);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -100,12 +102,14 @@ const LoginForm = () => {
               label="First Name"
               value={formData.firstName}
               onChange={(e) => handleChange(e, "firstName")}
+              disabled={isLoading}
             />
             <FormField
               htmlFor="lastName"
               label="Last Name"
               value={formData.lastName}
               onChange={(e) => handleChange(e, "lastName")}
+              disabled={isLoading}
             />
           </>
         )}
@@ -115,6 +119,7 @@ const LoginForm = () => {
           value={formData.email}
           onChange={(e) => handleChange(e, "email")}
           error={errors?.email}
+          disabled={isLoading}
         />
         <FormField
           htmlFor="password"
@@ -123,6 +128,7 @@ const LoginForm = () => {
           value={formData.password}
           onChange={(e) => handleChange(e, "password")}
           error={errors?.password}
+          disabled={isLoading}
         />
         <button
           type="submit"
