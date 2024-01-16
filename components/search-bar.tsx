@@ -12,7 +12,7 @@ const SearchBar = ({ profile }: Props) => {
   const route = useRouter();
 
   return (
-    <form className="w-full px-6 flex items-center gap-x-4 border-b-4 border-b-blue-900 border-opacity-30 h-20">
+    <form className="w-full px-6 py-2 flex items-center gap-x-4 border-b-4 border-b-blue-900 border-opacity-30 h-20">
       <div className={`flex items-center w-2/5`}>
         <input
           type="text"

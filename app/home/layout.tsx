@@ -8,9 +8,9 @@ export default function HomeLayout({
   modal: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="h-screen">
       {modal}
       {children}
-    </>
+    </div>
   );
 }

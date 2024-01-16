@@ -11,6 +11,7 @@ interface FormFieldProps {
   onChange?: (...args: any) => any;
   error?: string;
   dataTest?: string;
+  disabled?:boolean
 }
 
 
@@ -22,6 +23,7 @@ export function FormField({
   onChange = () => {},
   error = "",
   dataTest,
+  disabled
 }: FormFieldProps) {
   const [errorText, setErrorText] = useState(error);
 
@@ -29,12 +31,12 @@ export function FormField({
     setErrorText(error);
   }, [error]);
 
-  const visiblePassword = {
+  const hidePassword = {
     type: "password",
     visible: false,
   };
 
-  const [showPassword, setShowPassword] = useState<typeof visiblePassword>(visiblePassword);
+  const [showPassword, setShowPassword] = useState<typeof hidePassword>(hidePassword);
 
   const changeTypeEvent = () => {
     if (showPassword.visible) {
@@ -81,6 +83,7 @@ export function FormField({
         className="w-full p-2 rounded-xl my-2 text-black"
         value={value}
         data-test={dataTest}
+        disabled={disabled}
       />
     ),
     password: (
@@ -96,6 +99,7 @@ export function FormField({
           className="w-full p-2 rounded-xl my-2 text-black"
           value={value}
           data-test={dataTest}
+          disabled={disabled}
         />
         <div className="text-2xl absolute top-4 right-5 text-black">
           {toggleEvent()}
