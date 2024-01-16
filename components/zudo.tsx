@@ -2,20 +2,11 @@
 
 import { emojiMap } from "@/libs/constant";
 import { UserCircle } from "./user-circle";
-import { Profile, ZutoStyle } from "@prisma/client";
+import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
+import { IZudo } from "@/app/interfaces/zudo";
 
-export interface IZudo {
-  profile?: Profile;
-  zuto?: IFrom;
-  fun?:(id:string)=>void
-}
 
-interface I1Zudo{
-  message:string,
-  profile:Profile,
-  style: ZutoStyle
-}
 const Zudo = ({ profile, zuto }: IZudo) => {
   const backgroundColorMap = {
     RED: "bg-red-400",
@@ -31,9 +22,9 @@ const Zudo = ({ profile, zuto }: IZudo) => {
     WHITE: "text-white",
     YELLOW: "text-yellow-300",
   };
-  const recipientProfile = (id:string)=>{
+  const recipientProfile = (id: string) => {
     //I meet some async function to work on these trem
-  }
+  };
   return (
     <>
       <div
@@ -50,7 +41,7 @@ const Zudo = ({ profile, zuto }: IZudo) => {
               colorMap[zuto?.style.textColor || "BLUE"]
             } font-bold text-lg whitespace-pre-wrap break-all `}
           >
-            {profile && `${ profile.firstName}    ${profile.lastName}`}
+            {profile && `${profile.firstName}    ${profile.lastName}`}
           </p>
           <p
             className={`${
