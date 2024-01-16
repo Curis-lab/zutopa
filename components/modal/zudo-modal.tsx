@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import Zudo from "../zudo";
 import SelectBox from "@/components/select-box";
 
-import { backgroundColorMap, colorMap, emojiMap } from "@/libs/constant";
+import { backgroundColorMap, colorMap, emojiMap } from "@/app/constant";
 import { IFrom, IGetUserById } from "@/app/types";
 import { UserCircle } from "../user-circle";
 
@@ -15,13 +15,12 @@ interface IZudoModal {
 }
 
 const ZutoModal = ({ recipient }: IZudoModal) => {
-  const defaultFormData:IFrom = {
+  const defaultFormData: IFrom = {
     message: "",
     style: { backgroundColor: "GREEN", textColor: "BLUE", emoji: "HANDSUP" },
   };
 
   const [formData, setFormData] = useState<IFrom>(defaultFormData);
-  
 
   const getOptions = (data: any) =>
     Object.keys(data).reduce((acc: any[], curr) => {
