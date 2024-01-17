@@ -1,21 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { FormField } from "../form-field";
-import {Profile} from "@prisma/client";
-import ImageUploader from "../image-uploader";
 import axios from "axios";
+import { useState } from "react";
 
-interface IUser {
-  currentUser: Profile;
-}
+import { FormField } from "../form-field";
+import ImageUploader from "../image-uploader";
+import { IProfileModal } from "@/app/interfaces/profile";
 
-const ProfileModal = ({ currentUser }: IUser) => {
+
+const ProfileModal = ({ firstName, lastName, department, profilePicture }: IProfileModal) => {
+
   const [formData, setFormData] = useState({
-    firstName: currentUser.firstName,
-    lastName: currentUser.lastName,
-    department: currentUser.department,
-    profilePicture: currentUser?.profilePicture || "",
+    firstName,
+    lastName,
+    department,
+    profilePicture
   });
 
   const handleFileUpload = async (file: File) => {
