@@ -1,11 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { FormField } from "../form-field";
-import { Department, Profile, User } from "@prisma/client";
+import {Profile} from "@prisma/client";
 import ImageUploader from "../image-uploader";
 import axios from "axios";
-import { PostponedPathnameNormalizer } from "next/dist/server/future/normalizers/request/postponed";
 
 interface IUser {
   currentUser: Profile;
@@ -30,12 +29,12 @@ const ProfileModal = ({ currentUser }: IUser) => {
     .then((data)=>console.log('success'))
     .catch((error)=>console.log('Error messaging on profile modal page'));
   };
+  
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
-
       <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">
         <div className="w-1/3 flex justify-center">
@@ -60,14 +59,6 @@ const ProfileModal = ({ currentUser }: IUser) => {
             label="Department"
             value={formData.department}
           />
-          {/* <SelectBox
-          className="w-full rounded-xl px-3 py-2 text-gray-400"
-          id="department"
-          name="department"
-          value={formData.department}
-          onChange={() => {}}
-          options={formData.department}
-        /> */}
           <button
             name="_action"
             value="delete"
@@ -77,7 +68,6 @@ const ProfileModal = ({ currentUser }: IUser) => {
           </button>
           <div className="w-full text-right mt-4">
             <button
-              name="_action"
               value="save"
               className="rounded-xl bg-yellow-300 font-semibold text-blue-600 px-16 py-2 transition duration-300 ease-in-out hover:bg-yellow-400 hover:-translate-y-1"
             >

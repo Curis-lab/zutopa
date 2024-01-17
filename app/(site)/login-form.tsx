@@ -21,7 +21,7 @@ const LoginForm = () => {
 
   const [variant, setVariant] = useState<Vairant>("LOGIN");
   const [formData, setFormData] = useState(DEFAULT_FORM);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (session?.status === "authenticated") {

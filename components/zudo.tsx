@@ -1,11 +1,10 @@
 "use client";
 
-import { emojiMap } from "@/libs/constant";
+import { emojiMap } from "@/app/constant";
 import { UserCircle } from "./user-circle";
 import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
 import { IZudo } from "@/app/interfaces/zudo";
-
 
 const Zudo = ({ profile, zuto }: IZudo) => {
   const backgroundColorMap = {
