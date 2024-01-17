@@ -25,7 +25,7 @@ const Home = async () => {
         <div className="flex flex-row h-full">
           <div className="flex flex-1 p-10 flex-col h-full overflow-y-scroll">
             <div className="w-full flex flex-col gap-y-4">
-              {g && g.map((g) => <Zudo profile={g.profile} zuto={g.zuto} />)}
+              {g && g.map((g) => <Zudo profile={g.profile} zuto={g.zuto}/>)}
             </div>
           </div>
           <RecentBar />

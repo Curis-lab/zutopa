@@ -9,11 +9,12 @@ interface props {
 
 const ImageUploader = ({ onChange, imageUrl }: props) => {
   const [draggingOver, setDragginOver] = useState(true);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement|null>(null);
   const dropRef = useRef(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
+      console.log(e.currentTarget.files[0]);
       onChange(e.currentTarget.files[0]);
     }
   };
@@ -21,6 +22,14 @@ const ImageUploader = ({ onChange, imageUrl }: props) => {
   const preventDefault = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    preventDefault(e);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      onChange(e.dataTransfer.files[0]);
+      e.dataTransfer.clearData();
+    }
   };
   return (
     <div
@@ -31,6 +40,7 @@ const ImageUploader = ({ onChange, imageUrl }: props) => {
       onDragOver={preventDefault}
       onDragEnter={() => setDragginOver(true)}
       onDragLeave={() => setDragginOver(false)}
+      onDrop={handleDrop}
       className={`${
         draggingOver
           ? "border-4 border-dashed border-yellow-300 border-rounded "
@@ -47,10 +57,12 @@ const ImageUploader = ({ onChange, imageUrl }: props) => {
         </p>
       }
       <input
-        type="file"
+        type='file'
         ref={fileInputRef}
         onChange={handleChange}
         className="hidden"
+        accept="image/*"
+        value={''}
       />
     </div>
   );
