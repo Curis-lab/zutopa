@@ -1,7 +1,6 @@
 import { getCurrentUser } from "@/app/actions/getCurrentUser";
 import Modal from "@/components/modal/modals";
 import ProfileModal from "@/components/modal/profile-modal";
-import { Department } from "@prisma/client";
 
 const Profile = async () => {
   const currentUser = await getCurrentUser();
@@ -9,7 +8,12 @@ const Profile = async () => {
   if (currentUser) {
     return (
       <Modal isOpen={true} className="w-2/3 p-10">
-        <ProfileModal currentUser={currentUser?.profile} />
+        <ProfileModal
+          firstName={currentUser.profile.firstName}
+          lastName={currentUser.profile.lastName}
+          department={currentUser.profile?.department || ""}
+          profilePicture={currentUser.profile.profilePicture || ""}
+        />
       </Modal>
     );
   } else {
