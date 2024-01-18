@@ -8,7 +8,12 @@ const Profile = async () => {
   if (currentUser) {
     return (
       <Modal isOpen={true} className="w-2/3 p-10">
-        <ProfileModal firstName={currentUser.profile.firstName} lastName={currentUser.profile.lastName} department={ currentUser.profile?.department || ''} profilePicture={currentUser.profile.profilePicture || ''}/>
+        <ProfileModal
+          firstName={currentUser.profile.firstName}
+          lastName={currentUser.profile.lastName}
+          department={currentUser.profile?.department || ""}
+          profilePicture={currentUser.profile.profilePicture || ""}
+        />
       </Modal>
     );
   } else {
