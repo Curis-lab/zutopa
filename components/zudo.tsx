@@ -6,6 +6,12 @@ import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
 import { IZudo } from "@/app/interfaces/zudo";
 
+interface Zudo{
+  profile: Profile,
+  zudoStyle: string,
+  
+}
+
 const Zudo = ({ profile, zuto }: IZudo) => {
   const backgroundColorMap = {
     RED: "bg-red-400",

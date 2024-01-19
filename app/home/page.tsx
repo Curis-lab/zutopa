@@ -14,7 +14,7 @@ const Home = async () => {
   const users = await getAllUser();
 
   const currentuser = await getCurrentUser();
-  //get restructure of Interface for Zudo
+
   const g = getCompatableResource(zutos, users);
 
   return (

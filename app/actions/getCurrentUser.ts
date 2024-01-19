@@ -16,13 +16,21 @@ export const getCurrentUser = async () => {
   });
 };
 
+type userProfile = {
+  firstName: string,
+  lastName: string;
+  department: string;
+}
 
+export const getCurrentUserProfile = async()=>{
+  const currentUser = await getCurrentUser();
+  return {firstName: currentUser?.profile.firstName}
+}
 
 export const getUserByParams = async (params: string) => {
-  console.log(params);
   const recipientData = await db.user.findUnique({
     where: {
-      id: params
+      id: params,
     },
   });
 
@@ -45,15 +53,15 @@ export const getUserByParams = async (params: string) => {
   };
 };
 
-export const getProfileById = async (
-  id: string
-)=> {
+export const getProfileById = async (id: string) => {
   return await db.user.findUnique({
     where: { id },
   });
-  }
-export const ProduceZudo = async(zuto: Zuto) => {
-  const zudo = await db.user.findUnique({where:{id: zuto.recipientId}});
-  
-  return {message: zuto.message, style: zuto.style}
 };
+
+export const ProduceZudo = async (zuto: Zuto) => {
+  const zudo = await db.user.findUnique({ where: { id: zuto.recipientId } });
+
+  return { message: zuto.message, style: zuto.style };
+};
+
