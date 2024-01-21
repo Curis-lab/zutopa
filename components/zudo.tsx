@@ -4,12 +4,11 @@ import { emojiMap } from "@/app/constant";
 import { UserCircle } from "./user-circle";
 import { Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
-import { IZudo } from "@/app/interfaces/zudo";
+import { IZudo } from "@/interfaces/zudo";
 
-interface Zudo{
-  profile: Profile,
-  zudoStyle: string,
-  
+interface Zudo {
+  profile: Profile;
+  zudoStyle: string;
 }
 
 const Zudo = ({ profile, zuto }: IZudo) => {

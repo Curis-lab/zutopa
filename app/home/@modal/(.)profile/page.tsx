@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 import Modal from "@/components/modal/modals";
 import ProfileModal from "@/components/modal/profile-modal";
 

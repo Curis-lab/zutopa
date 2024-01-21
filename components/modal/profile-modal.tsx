@@ -5,30 +5,36 @@ import { useState } from "react";
 
 import { FormField } from "../form-field";
 import ImageUploader from "../image-uploader";
-import { IProfileModal } from "@/app/interfaces/profile";
+import { IProfileModal } from "@/interfaces/profile";
 
-
-const ProfileModal = ({ firstName, lastName, department, profilePicture }: IProfileModal) => {
-
+const ProfileModal = ({
+  firstName,
+  lastName,
+  department,
+  profilePicture,
+}: IProfileModal) => {
   const [formData, setFormData] = useState({
     firstName,
     lastName,
     department,
-    profilePicture
+    profilePicture,
   });
 
   const handleFileUpload = async (file: File) => {
     const formData = new FormData();
     formData.append("profile-pic", file);
-    await axios.post("/api/image", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((data)=>console.log('success'))
-    .catch((error)=>console.log('Error messaging on profile modal page'));
+    await axios
+      .post("/api/image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((data: any) => console.log(data))
+      .catch((error) => console.log("Error messaging on profile modal page"));
   };
-  
+
+
+
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
