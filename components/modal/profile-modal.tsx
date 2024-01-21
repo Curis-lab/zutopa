@@ -29,11 +29,19 @@ const ProfileModal = ({ firstName, lastName, department, profilePicture }: IProf
     .catch((error)=>console.log('Error messaging on profile modal page'));
   };
   
+  const onSubmit = async()=>{
+    await axios.post("/api/profilePic",{'id':'12'})
+    .then((data)=>{console.log(data)})
+    .catch((error)=>{
+      console.log(error);
+    })
+  }
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
+      <button onClick={onSubmit}>ONSUBMIT</button>
       <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">
         <div className="w-1/3 flex justify-center">
