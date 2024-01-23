@@ -13,7 +13,6 @@ interface props {
   onClick?: (...args: any) => any;
 }
 
-
 export function UserCircle({ profile, onClick, className }: props) {
   return (
     <div
