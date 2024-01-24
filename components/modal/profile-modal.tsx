@@ -20,42 +20,60 @@ const ProfileModal = ({
     profilePicture,
   });
 
-  const handleFileUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("profile-pic", file);
-    await axios
-      .post("/api/image", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((data: any) => console.log(data))
-      .catch((error) => console.log("Error messaging on profile modal page"));
-  };
+  const [selectedImage, setSelectImage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   const onSubmit = async () => {
-    await axios
-      .post("/api/profilePic", { id: "12" })
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log("Selected Image", selectedImage);
+    console.log(selectedFile);
+
+    if (!selectedFile) {
+      return null;
+    }
+
+    const formData = new FormData();
+    formData.append("profile-pic", selectedFile);
+    const { data } = await axios.post("/api/profilePic", formData);
+
+    console.log(data);
   };
+
+  function handleChangeUpload(e: EventTarget & HTMLInputElement) {
+    if (e.files) {
+      const file = e.files[0];
+      setSelectImage(URL.createObjectURL(file));
+      setSelectedFile(file);
+    }
+  }
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
+
+      <div>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={({ target }) => handleChangeUpload(target)}
+        />
+      </div>
+      <div>
+        {selectedImage ? (
+          <img src={selectedImage} alt="" className="w-24 h-23 rounded-full" />
+        ) : (
+          <span></span>
+        )}
+      </div>
+
       <button onClick={onSubmit}>ONSUBMIT</button>
       <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">
         <div className="w-1/3 flex justify-center">
-          <ImageUploader
+          {/* <ImageUploader
             onChange={handleFileUpload}
             imageUrl={formData.profilePicture || ""}
-          />
+          /> */}
         </div>
         <div className="flex-1">
           <FormField
