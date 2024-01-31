@@ -1,12 +1,7 @@
 "use client";
 
-import { Department } from "@prisma/client";
+import { IProfile } from "@/interfaces/profile";
 
-interface IProfile {
-  firstName: string;
-  lastName: string;
-  department?: Department | null;
-}
 interface props {
   profile: IProfile;
   className?: string;

@@ -2,33 +2,34 @@
 
 import { emojiMap } from "@/app/constant";
 import { UserCircle } from "./user-circle";
-import { Profile } from "@prisma/client";
+import { Department, Profile } from "@prisma/client";
 import { IFrom } from "@/app/types";
 import { IZudo } from "@/interfaces/zudo";
+import { IProfile } from "@/interfaces/profile";
+import { db } from "@/libs/prisma.server";
+import { extractProfileByMessageId } from "@/actions/getZutos";
 
 interface Zudo {
   profile: Profile;
   zudoStyle: string;
 }
 
+const backgroundColorMap = {
+  RED: "bg-red-400",
+  GREEN: "bg-green-400",
+  BLUE: "bg-blue-400",
+  WHITE: "bg-white",
+  YELLOW: "bg-yellow-300",
+};
+const colorMap = {
+  RED: "text-red-400",
+  GREEN: "text-green-400",
+  BLUE: "text-blue-400",
+  WHITE: "text-white",
+  YELLOW: "text-yellow-300",
+};
 const Zudo = ({ profile, zuto }: IZudo) => {
-  const backgroundColorMap = {
-    RED: "bg-red-400",
-    GREEN: "bg-green-400",
-    BLUE: "bg-blue-400",
-    WHITE: "bg-white",
-    YELLOW: "bg-yellow-300",
-  };
-  const colorMap = {
-    RED: "text-red-400",
-    GREEN: "text-green-400",
-    BLUE: "text-blue-400",
-    WHITE: "text-white",
-    YELLOW: "text-yellow-300",
-  };
-  const recipientProfile = (id: string) => {
-    //I meet some async function to work on these trem
-  };
+
   return (
     <>
       <div
@@ -37,7 +38,7 @@ const Zudo = ({ profile, zuto }: IZudo) => {
         }`}
       >
         <div>
-          {profile && <UserCircle profile={profile} className="h-16 w-16" />}
+          {/* {profile && <UserCircle profile={profile} className="h-16 w-16" />} */}
         </div>
         <div className="flex flex-col">
           <p
