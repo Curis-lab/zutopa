@@ -7,21 +7,37 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { FormField } from "@/components/form-field";
 import { useRouter } from "next/navigation";
-import { validateEmail, validateName, validatePassword } from "@/libs/validators";
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "@/libs/validators";
 
 type Vairant = "LOGIN" | "REGISTER";
 
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
-
   const session = useSession();
 
   const router = useRouter();
 
   const [variant, setVariant] = useState<Vairant>("LOGIN");
   const [formData, setFormData] = useState(DEFAULT_FORM);
+
+  const default_errors = {
+    email: "",
+    password: "",
+    ...(variant === "REGISTER"
+      ? {
+          firstName: "",
+          lastName: "",
+        }
+      : {}),
+  };
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState(default_errors);
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -29,7 +45,6 @@ const LoginForm = () => {
     }
   }, [session?.status]);
 
-  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
@@ -44,6 +59,17 @@ const LoginForm = () => {
       setVariant("LOGIN");
     }
   }, [variant]);
+
+  const check_errors = {
+    email: validateEmail(formData.email) as string,
+    password: validatePassword(formData.password) as string,
+    ...(variant === "REGISTER"
+      ? {
+          firstName: validateName(formData.firstName),
+          lastName: validateName(formData.lastName),
+        }
+      : {}),
+  };
 
   const onSubmit = async () => {
     if (variant === "LOGIN") {
@@ -72,21 +98,16 @@ const LoginForm = () => {
         .catch(() => {
           toast.error("Invalid Registration");
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
 
-  const errors = {
-    email: validateEmail(formData.email),
-    password: validatePassword(formData.password),
-    ...(variant === "REGISTER"
-      ? {
-          firstName: validateName(formData.firstName),
-          lastName: validateName(formData.lastName),
-        }
-      : {}),
-  };
-
+  useEffect(()=>{
+    setErrors(check_errors);
+  },[errors]);
+  
   return (
     <>
       <h2 data-test="header">Zutopia</h2>
