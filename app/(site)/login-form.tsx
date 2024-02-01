@@ -94,26 +94,34 @@ const LoginForm = () => {
         });
     }
   };
-
+  function extractClass(mood:string, error:string){
+    return new Mode(mood, error)
+  }
+  interface IFormData{
+    firstName:string,
+    lastName:string,
+    email:string,
+    password:string
+  }
   class Mode{
-    mood:string;
-    constructor(mood:string){
-      this.mood = mood
+    form_data:IFormData;
+    constructor(formData:IFormData){
+      this.form_data = formData
     }
-    login():void{
-      
+    login(){
+      const errors = {
+        email:validateEmail(this.form_data.email) as string,
+        lastName: validatePassword(this.form_data.password) as string
+      }
+      return errors
     }
     register():void{
-
+      // return this.mood
     }
   }
   
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
-      let errors = {
-        email: validateEmail(formData.email) as string,
-        password: validatePassword(formData.password) as string 
-      };
       setVariant("REGISTER");
     } else {
       setVariant("LOGIN");
