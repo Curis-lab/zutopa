@@ -25,19 +25,7 @@ const LoginForm = () => {
   const [variant, setVariant] = useState<Vairant>("LOGIN");
   const [formData, setFormData] = useState(DEFAULT_FORM);
 
-  const default_errors = {
-    email: "",
-    password: "",
-    ...(variant === "REGISTER"
-      ? {
-          firstName: "",
-          lastName: "",
-        }
-      : {}),
-  };
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errors, setErrors] = useState(default_errors);
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -50,25 +38,6 @@ const LoginForm = () => {
     field: string
   ) => {
     setFormData((form) => ({ ...form, [field]: e.target.value }));
-  };
-
-  const toggleVariant = useCallback(() => {
-    if (variant === "LOGIN") {
-      setVariant("REGISTER");
-    } else {
-      setVariant("LOGIN");
-    }
-  }, [variant]);
-
-  const check_errors = {
-    email: validateEmail(formData.email) as string,
-    password: validatePassword(formData.password) as string,
-    ...(variant === "REGISTER"
-      ? {
-          firstName: validateName(formData.firstName),
-          lastName: validateName(formData.lastName),
-        }
-      : {}),
   };
 
   const onSubmit = async () => {
@@ -104,10 +73,28 @@ const LoginForm = () => {
     }
   };
 
-  useEffect(()=>{
-    setErrors(check_errors);
-  },[errors]);
-  
+  const toggleVariant = useCallback(() => {
+    if (variant === "LOGIN") {
+      setVariant("REGISTER");
+    } else {
+      setVariant("LOGIN");
+    }
+  }, [variant]);
+  const default_errors = {
+    email: "",
+    password: "",
+  };
+  const [errors, setErrors] = useState(default_errors);
+
+  const onSubmitting = () => {
+    console.log(errors.email);
+  };
+  useEffect(() => {
+    setErrors((data) => ({
+      ...data,
+      email: validateEmail(formData.email) as string,
+    }));
+  }, [formData]);
   return (
     <>
       <h2 data-test="header">Zutopia</h2>
@@ -139,7 +126,7 @@ const LoginForm = () => {
           label="Email"
           value={formData.email}
           onChange={(e) => handleChange(e, "email")}
-          error={errors?.email}
+          error={"hello"}
           disabled={isLoading}
         />
         <FormField
@@ -154,7 +141,8 @@ const LoginForm = () => {
         <button
           type="submit"
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
-          onClick={onSubmit}
+          // onClick={onSubmit}
+          onClick={onSubmitting}
           data-test="submit"
         >
           {variant === "LOGIN" ? "Sign in" : "Register"}
