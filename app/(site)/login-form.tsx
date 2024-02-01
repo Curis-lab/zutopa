@@ -3,7 +3,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import { signIn, useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { FormField } from "@/components/form-field";
 import { useRouter } from "next/navigation";
@@ -33,14 +33,20 @@ const LoginForm = () => {
     }
   }, [session?.status]);
 
-  const handleChange = (
+  const handleChange =useCallback( (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
     setFormData((form) => ({ ...form, [field]: e.target.value }));
-  };
+  },[]);
 
   const onSubmit = async () => {
+    setErrors((data) => ({
+      ...data,
+      email: validateEmail(formData.email) as string,
+      password: validatePassword(formData.password) as string
+    }));
+
     if (variant === "LOGIN") {
       signIn("credentials", {
         email: formData?.email,
@@ -85,16 +91,21 @@ const LoginForm = () => {
     password: "",
   };
   const [errors, setErrors] = useState(default_errors);
+  
 
   const onSubmitting = () => {
-    console.log(errors.email);
-  };
-  useEffect(() => {
     setErrors((data) => ({
       ...data,
       email: validateEmail(formData.email) as string,
     }));
-  }, [formData]);
+    console.log(errors.email);
+  };
+
+  const firstLoad = useRef(true);
+
+  useEffect(()=>{
+    firstLoad.current = false;
+  },[])
   return (
     <>
       <h2 data-test="header">Zutopia</h2>
@@ -126,7 +137,7 @@ const LoginForm = () => {
           label="Email"
           value={formData.email}
           onChange={(e) => handleChange(e, "email")}
-          error={"hello"}
+          error={errors?.email}
           disabled={isLoading}
         />
         <FormField
@@ -141,8 +152,7 @@ const LoginForm = () => {
         <button
           type="submit"
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
-          // onClick={onSubmit}
-          onClick={onSubmitting}
+          onClick={onSubmit}
           data-test="submit"
         >
           {variant === "LOGIN" ? "Sign in" : "Register"}

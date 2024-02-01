@@ -28,7 +28,7 @@ export function FormField({
   const [errorText, setErrorText] = useState(error);
 
   useEffect(() => {
-    setErrorText('');
+    setErrorText(error);
   }, [error]);
 
   const hidePassword = {
