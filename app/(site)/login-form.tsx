@@ -17,7 +17,6 @@ type Vairant = "LOGIN" | "REGISTER";
 
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
-
 const LoginForm = () => {
   const session = useSession();
   const router = useRouter();
@@ -26,7 +25,7 @@ const LoginForm = () => {
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [errors, setErrors] = useState({
+  const defaultErrors = {
     email: "",
     password: "",
     ...(variant === "REGISTER"
@@ -35,8 +34,9 @@ const LoginForm = () => {
           lastName: "",
         }
       : {}),
-  });
+  };
 
+  const [errors, setErrors] = useState(defaultErrors);
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -49,11 +49,11 @@ const LoginForm = () => {
       setFormData((form) => ({ ...form, [field]: e.target.value }));
     },
     []
-    );
-    
-    const onSubmit = async () => {
-      setErrors((data) => ({
-        ...data,
+  );
+
+  const onSubmit = async () => {
+    setErrors((data) => ({
+      ...data,
       email: validateEmail(formData.email) as string,
       password: validatePassword(formData.password) as string,
       ...(variant === "REGISTER"
@@ -96,27 +96,15 @@ const LoginForm = () => {
     }
   };
 
-  
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
       setVariant("REGISTER");
     } else {
-      
       setVariant("LOGIN");
     }
-    setErrors({
-      email: "",
-      password: "",
-      ...(variant === "REGISTER"
-        ? {
-            firstName: "",
-            lastName: "",
-          }
-        : {}),
-    });
+    setErrors(defaultErrors);
     setFormData(DEFAULT_FORM);
   }, [variant]);
-
 
   useEffect(() => {
     firstLoad.current = false;
