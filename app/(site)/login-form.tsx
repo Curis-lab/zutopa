@@ -17,6 +17,7 @@ type Vairant = "LOGIN" | "REGISTER";
 
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
+
 const LoginForm = () => {
   const session = useSession();
   const router = useRouter();
@@ -24,7 +25,7 @@ const LoginForm = () => {
   const [variant, setVariant] = useState<Vairant>("LOGIN");
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -98,14 +99,22 @@ const LoginForm = () => {
   
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
-      let errors = {
-        email: validateEmail(formData.email) as string,
-        password: validatePassword(formData.password) as string 
-      };
       setVariant("REGISTER");
     } else {
+      
       setVariant("LOGIN");
     }
+    setErrors({
+      email: "",
+      password: "",
+      ...(variant === "REGISTER"
+        ? {
+            firstName: "",
+            lastName: "",
+          }
+        : {}),
+    });
+    setFormData(DEFAULT_FORM);
   }, [variant]);
 
 
