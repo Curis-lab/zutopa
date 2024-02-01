@@ -19,13 +19,23 @@ const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
   const session = useSession();
-
   const router = useRouter();
-
+  const firstLoad = useRef(true);
   const [variant, setVariant] = useState<Vairant>("LOGIN");
   const [formData, setFormData] = useState(DEFAULT_FORM);
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    ...(variant === "REGISTER"
+      ? {
+          firstName: "",
+          lastName: "",
+        }
+      : {}),
+  });
+
 
   useEffect(() => {
     if (session?.status === "authenticated") {
@@ -33,18 +43,24 @@ const LoginForm = () => {
     }
   }, [session?.status]);
 
-  const handleChange =useCallback( (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    setFormData((form) => ({ ...form, [field]: e.target.value }));
-  },[]);
-
-  const onSubmit = async () => {
-    setErrors((data) => ({
-      ...data,
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
+      setFormData((form) => ({ ...form, [field]: e.target.value }));
+    },
+    []
+    );
+    
+    const onSubmit = async () => {
+      setErrors((data) => ({
+        ...data,
       email: validateEmail(formData.email) as string,
-      password: validatePassword(formData.password) as string
+      password: validatePassword(formData.password) as string,
+      ...(variant === "REGISTER"
+        ? {
+            firstName: validateName((formData.firstName as string) || ""),
+            lastName: validateName((formData.lastName as string) || ""),
+          }
+        : {}),
     }));
 
     if (variant === "LOGIN") {
@@ -79,33 +95,36 @@ const LoginForm = () => {
     }
   };
 
+  class Mode{
+    mood:string;
+    constructor(mood:string){
+      this.mood = mood
+    }
+    login():void{
+      
+    }
+    register():void{
+
+    }
+  }
+  
   const toggleVariant = useCallback(() => {
     if (variant === "LOGIN") {
+      let errors = {
+        email: validateEmail(formData.email) as string,
+        password: validatePassword(formData.password) as string 
+      };
       setVariant("REGISTER");
     } else {
       setVariant("LOGIN");
     }
   }, [variant]);
-  const default_errors = {
-    email: "",
-    password: "",
-  };
-  const [errors, setErrors] = useState(default_errors);
-  
 
-  const onSubmitting = () => {
-    setErrors((data) => ({
-      ...data,
-      email: validateEmail(formData.email) as string,
-    }));
-    console.log(errors.email);
-  };
 
-  const firstLoad = useRef(true);
-
-  useEffect(()=>{
+  useEffect(() => {
     firstLoad.current = false;
-  },[])
+  }, []);
+
   return (
     <>
       <h2 data-test="header">Zutopia</h2>
