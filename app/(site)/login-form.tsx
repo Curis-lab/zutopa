@@ -13,8 +13,6 @@ import {
   validatePassword,
 } from "@/libs/validators";
 
-type Vairant = "LOGIN" | "REGISTER";
-
 //testing for these code
 //must check Filefield red noti and data connected
 //must submit any thing we work
@@ -25,14 +23,14 @@ const LoginForm = () => {
   const session = useSession();
   const router = useRouter();
   const firstLoad = useRef(true);
-  const [variant, setVariant] = useState<Vairant>("LOGIN");
+  const [isLogin, setIsLogin] = useState<boolean>(true);
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const defaultErrors = {
     email: "",
     password: "",
-    ...(variant === "REGISTER"
+    ...(!isLogin
       ? {
           firstName: "",
           lastName: "",
@@ -60,15 +58,15 @@ const LoginForm = () => {
       ...data,
       email: validateEmail(formData.email) as string,
       password: validatePassword(formData.password) as string,
-      ...(variant === "REGISTER"
+      ...(!isLogin
         ? {
-            firstName: validateName((formData.firstName as string) || ""),
-            lastName: validateName((formData.lastName as string) || ""),
+            firstName: validateName(formData.firstName) as string || "",
+            lastName: validateName(formData.lastName) as string || "",
           }
         : {}),
     }));
 
-    if (variant === "LOGIN") {
+    if (isLogin) {
       signInFunction(formData);
     } else {
       axiosPostForRegistration(formData);
@@ -108,14 +106,10 @@ const LoginForm = () => {
   };
 
   const toggleVariant = useCallback(() => {
-    if (variant === "LOGIN") {
-      setVariant("REGISTER");
-    } else {
-      setVariant("LOGIN");
-    }
+    setIsLogin(prev=>!prev)
     setErrors(defaultErrors);
     setFormData(DEFAULT_FORM);
-  }, [variant]);
+  }, [isLogin,setIsLogin]);
 
   useEffect(() => {
     firstLoad.current = false;
@@ -128,7 +122,7 @@ const LoginForm = () => {
         Sign in to your account
       </p>
       <div className="p-6 w-96">
-        {variant === "REGISTER" && (
+        {!isLogin && (
           <>
             <FormField
               dataTest="firstName"
@@ -137,6 +131,7 @@ const LoginForm = () => {
               value={formData.firstName}
               onChange={(e) => handleChange(e, "firstName")}
               disabled={isLoading}
+              error={errors?.firstName}
             />
             <FormField
               htmlFor="lastName"
@@ -144,6 +139,7 @@ const LoginForm = () => {
               value={formData.lastName}
               onChange={(e) => handleChange(e, "lastName")}
               disabled={isLoading}
+              error={errors?.lastName}
             />
           </>
         )}
@@ -170,7 +166,7 @@ const LoginForm = () => {
           onClick={onSubmit}
           data-test="submit"
         >
-          {variant === "LOGIN" ? "Sign in" : "Register"}
+          {isLogin? "Sign in" : "Register"}
         </button>
         <div className="mt-6">
           <div className="relative">
@@ -186,12 +182,12 @@ const LoginForm = () => {
         </div>
         <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-white">
           <div>
-            {variant === "LOGIN"
+            {isLogin
               ? "New to zutopia?"
               : "Already have an Account"}
           </div>
           <div onClick={toggleVariant} className="underline cursor-pointer">
-            {variant === "LOGIN" ? "Create an account." : "Login"}
+            {isLogin ? "Create an account." : "Login"}
           </div>
         </div>
       </div>
