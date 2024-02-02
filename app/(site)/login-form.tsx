@@ -65,7 +65,28 @@ const LoginForm = () => {
     }));
 
     if (variant === "LOGIN") {
-      signIn("credentials", {
+      signInFunction(formData);
+    } else {
+      axiosPostForRegistration(formData);
+    }
+
+    function axiosPostForRegistration(formData: typeof DEFAULT_FORM): any {
+      
+      return axios
+        .post("/api/register", formData)
+        .then(() => {
+          signIn("credentials", formData);
+          setFormData(DEFAULT_FORM);
+        })
+        .catch(() => {
+          toast.error("Invalid Registration");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    function signInFunction(formData: typeof DEFAULT_FORM): any {
+      return signIn("credentials", {
         email: formData?.email,
         password: formData?.password,
         redirect: false,
@@ -80,19 +101,6 @@ const LoginForm = () => {
           }
         })
         .finally(() => setIsLoading(false));
-    } else {
-      axios
-        .post("/api/register", formData)
-        .then(() => {
-          signIn("credentials", formData);
-          setFormData(DEFAULT_FORM);
-        })
-        .catch(() => {
-          toast.error("Invalid Registration");
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
     }
   };
 
