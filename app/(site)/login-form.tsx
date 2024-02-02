@@ -15,6 +15,10 @@ import {
 
 type Vairant = "LOGIN" | "REGISTER";
 
+//testing for these code
+//must check Filefield red noti and data connected
+//must submit any thing we work
+
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
@@ -71,7 +75,6 @@ const LoginForm = () => {
     }
 
     function axiosPostForRegistration(formData: typeof DEFAULT_FORM): any {
-      
       return axios
         .post("/api/register", formData)
         .then(() => {
