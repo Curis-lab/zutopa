@@ -20,13 +20,14 @@ import {
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
+  
   const session = useSession();
   const router = useRouter();
   const firstLoad = useRef(true);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  
   const defaultErrors = {
     email: "",
     password: "",
@@ -50,7 +51,7 @@ const LoginForm = () => {
     (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
       setFormData((form) => ({ ...form, [field]: e.target.value }));
     },
-    []
+    [formData, setFormData]
   );
 
   const onSubmit = async () => {
@@ -86,7 +87,7 @@ const LoginForm = () => {
           setIsLoading(false);
         });
     }
-    function signInFunction(formData: typeof DEFAULT_FORM): any {
+    function signInFunction(formData: typeof DEFAULT_FORM):any {
       return signIn("credentials", {
         email: formData?.email,
         password: formData?.password,
