@@ -44,6 +44,7 @@ const ProfileModal = ({
       const file = e.files[0];
       setSelectImage(URL.createObjectURL(file));
       setSelectedFile(file);
+      display_background(selectedFile);
     }
   }
 
