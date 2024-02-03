@@ -4,8 +4,9 @@ import axios from "axios";
 import { useState } from "react";
 
 import { FormField } from "../form-field";
-import ImageUploader from "../image-uploader";
 import { IProfileModal } from "@/interfaces/profile";
+import toast from "react-hot-toast";
+import { display_alert, display_background } from "@/libs/console_decorator";
 
 const ProfileModal = ({
   firstName,
@@ -45,19 +46,79 @@ const ProfileModal = ({
       setSelectedFile(file);
     }
   }
+
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    display_alert(file);
+    if (!file) {
+      toast("Please select a file to upload");
+      return;
+    }
+
+    setUploading(true);
+
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_BASE_URL + "/api/upload",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ filename: file.name, contentType: file.type }),
+      }
+    );
+    if (response.ok) {
+      const { url, fields } = await response.json();
+      const formData = new FormData();
+      Object.entries(fields).forEach(([key, value]) => {
+        formData.append(key, value as string);
+      });
+      formData.append("file", file);
+
+      const uploadResponse = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (uploadResponse.ok) {
+        toast("upload successfully!");
+      } else {
+        toast("Failed go get presigned URL");
+      }
+
+      setUploading(false);
+    }
+  };
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
-
-      <div>
+      <form onSubmit={handleSubmit} className="bg-blue-900">
+        <input
+          id="file"
+          type="file"
+          onChange={(e) => {
+            const files = e.target.files;
+            if (files) {
+              setFile(files[0]);
+            }
+            display_background(file);
+          }}
+          accept="image/*"
+        />
+        <label>AWS Submit</label>
+      </form>
+      {/* <div>
         <input
           type="file"
           accept="image/*"
           onChange={({ target }) => handleChangeUpload(target)}
         />
-      </div>
+      </div> */}
       <div>
         {selectedImage ? (
           <img src={selectedImage} alt="" className="w-24 h-23 rounded-full" />
