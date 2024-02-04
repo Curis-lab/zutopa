@@ -6,7 +6,6 @@ import { useState } from "react";
 import { FormField } from "../form-field";
 import { IProfileModal } from "@/interfaces/profile";
 import toast from "react-hot-toast";
-import { display_alert, display_background } from "@/libs/console_decorator";
 
 const ProfileModal = ({
   firstName,
@@ -25,9 +24,6 @@ const ProfileModal = ({
   const [selectedFile, setSelectedFile] = useState<File>();
 
   const onSubmit = async () => {
-    console.log("Selected Image", selectedImage);
-    console.log(selectedFile);
-
     if (!selectedFile) {
       return null;
     }
@@ -35,8 +31,6 @@ const ProfileModal = ({
     const formData = new FormData();
     formData.append("profile-pic", selectedFile);
     const { data } = await axios.post("/api/profilePic", formData);
-
-    console.log(data);
   };
 
   function handleChangeUpload(e: EventTarget & HTMLInputElement) {
@@ -52,7 +46,6 @@ const ProfileModal = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    display_alert(file);
     if (!file) {
       toast("Please select a file to upload");
       return;
@@ -106,19 +99,18 @@ const ProfileModal = ({
             if (files) {
               setFile(files[0]);
             }
-            display_background(file);
           }}
           accept="image/*"
         />
         <label>AWS Submit</label>
       </form>
-      {/* <div>
+      <div>
         <input
           type="file"
           accept="image/*"
           onChange={({ target }) => handleChangeUpload(target)}
         />
-      </div> */}
+      </div>
       <div>
         {selectedImage ? (
           <img src={selectedImage} alt="" className="w-24 h-23 rounded-full" />
