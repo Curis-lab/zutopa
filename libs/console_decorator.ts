@@ -1,23 +1,19 @@
+interface IColor {
+  message: string;
+  color?: "BG_BLUE" | "BG_GREEN" | "BG_RED";
+}
 
-export const fontColor = {
-  RED: "\x1b[31m",
-  GREEN: "\x1b[32m",
-  YELLOW: "\x1b[33m",
-  BLUE: "\x1b[34m",
-  MAGENTA: "\x1b[35m",
-  CYAN: "\x1b[36m",
-  WHITE: "\x1b[37m",
+const RESET = "\x1b[0m";
+
+const bg_colors = {
+  BG_RED: "\x1b[41m",
+  BG_GREEN: "\x1b[42m",
+  BG_BLUE: "\x1b[44m",
 };
 
-const RESET = '\x1b[0m';
-const BG_RED = '\x1b[41m';
-const BG_GREEN = '\x1b[42m';
-const BG_BLUE = '\x1b[44m';
-
-export const display_alert = (message:any):void=>{
-    console.log(fontColor.RED+message)
-}
-
-export const display_background = (message: any)=>{
-    console.log(BG_RED+message+RESET);
-}
+export const highlight = ({
+  message,
+  color = 'BG_GREEN',
+}: IColor): void => {
+  console.log(bg_colors[color] + "\x1b[37m" + message + RESET);
+};

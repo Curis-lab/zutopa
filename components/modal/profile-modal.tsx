@@ -1,12 +1,10 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import { FormField } from "../form-field";
 import { IProfileModal } from "@/interfaces/profile";
-import toast from "react-hot-toast";
-import { display_alert, display_background } from "@/libs/console_decorator";
 
 const ProfileModal = ({
   firstName,
@@ -25,40 +23,32 @@ const ProfileModal = ({
   const [selectedFile, setSelectedFile] = useState<File>();
 
   const onSubmit = async () => {
-    console.log("Selected Image", selectedImage);
-    console.log(selectedFile);
-
     if (!selectedFile) {
       return null;
     }
-
+    console.log("From selected File -> ", selectedFile);
     const formData = new FormData();
     formData.append("profile-pic", selectedFile);
     const { data } = await axios.post("/api/profilePic", formData);
-
-    console.log(data);
+    console.log("form on Submit button ---->", data);
   };
 
   function handleChangeUpload(e: EventTarget & HTMLInputElement) {
     if (e.files) {
-      const file = e.files[0];
-      setSelectImage(URL.createObjectURL(file));
-      setSelectedFile(file);
-      display_background(selectedFile);
+
+      setSelectImage(URL.createObjectURL(e.files[0]));
+      setSelectedFile(e.files[0]);
     }
   }
 
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File>();
   const [uploading, setUploading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    display_alert(file);
     if (!file) {
-      toast("Please select a file to upload");
       return;
     }
-
     setUploading(true);
 
     const response = await fetch(
@@ -71,55 +61,59 @@ const ProfileModal = ({
         body: JSON.stringify({ filename: file.name, contentType: file.type }),
       }
     );
-    if (response.ok) {
-      const { url, fields } = await response.json();
+    if(response.ok){
+      const {url, fields} = await response.json();
+      console.log(url);
       const formData = new FormData();
-      Object.entries(fields).forEach(([key, value]) => {
-        formData.append(key, value as string);
-      });
-      formData.append("file", file);
-
-      const uploadResponse = await fetch(url, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (uploadResponse.ok) {
-        toast("upload successfully!");
-      } else {
-        toast("Failed go get presigned URL");
-      }
-
-      setUploading(false);
+      // Object.entries(fields).forEach
     }
+    // if (response.ok) {
+    //   const { url, fields } = await response.json();
+    //   const formData = new FormData();
+    //   Object.entries(fields).forEach(([key, value]) => {
+    //     formData.append(key, value as string);
+    //   });
+    //   formData.append("file", file);
+
+    //   const uploadResponse = await fetch(url, {
+    //     method: "POST",
+    //     body: formData,
+    //   });
+
+    //   if (uploadResponse.ok) {
+    //     console.log("upload successfully!");
+    //   } else {
+    //     console.log("Failed go get presigned URL");
+    //   }
+    //   setUploading(false);
+    // }
   };
+
+  //success on these part
+  function handleSubmitChange(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files === null) {
+      return null;
+    }
+    setFile(e.target.files[0]);
+  }
   return (
     <div className="p-3">
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
-      <form onSubmit={handleSubmit} className="bg-blue-900">
+      {/* <form onSubmit={handleSubmit} className="bg-blue-900 p-10">
         <input
           id="file"
           type="file"
-          onChange={(e) => {
-            const files = e.target.files;
-            if (files) {
-              setFile(files[0]);
-            }
-            display_background(file);
-          }}
+          onChange={({ target }) => handleSubmitChange(target)}
           accept="image/*"
         />
-        <label>AWS Submit</label>
       </form>
-      {/* <div>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={({ target }) => handleChangeUpload(target)}
-        />
-      </div> */}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={({ target }) => handleChangeUpload(target)}
+      />
       <div>
         {selectedImage ? (
           <img src={selectedImage} alt="" className="w-24 h-23 rounded-full" />
@@ -128,7 +122,17 @@ const ProfileModal = ({
         )}
       </div>
 
-      <button onClick={onSubmit}>ONSUBMIT</button>
+      <button onClick={onSubmit} className="bg-blue-200 p-10 rounded-lg">
+        ONSUBMIT
+      </button> */}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="file"
+          onChange={(e) => handleSubmitChange(e)}
+          accept="image/*"
+        />
+        <button type="submit" disabled={uploading}>Submit</button>
+      </form>
       <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">
         <div className="w-1/3 flex justify-center">
