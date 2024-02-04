@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(request: Request) {
   const { filename, contentType } = await request.json();
   try {
+    console.log(filename);
     const client = new S3Client({ region: process.env.ZUDO_BUCKET_REGION });
     const { url, fields } = await createPresignedPost(client, {
       Bucket: process.env.ZUDO_BUCKET_NAME as string,
@@ -19,8 +20,6 @@ export async function POST(request: Request) {
       },
       Expires: 600,
     });
-    console.log('success on aws');
-    console.log(filename);
     return Response.json({ url, fields });
   } catch (errors: any) {
     return Response.json({ error: errors.message });
