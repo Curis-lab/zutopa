@@ -5,7 +5,5 @@ describe("template spec", () => {
   it("Contains correct text on login form", () => {
     cy.getDataTest("header").should("contain.text", "Zutopia");
     cy.get('#user-ssn').should('have.value','123-45-883');
-    // cy.getDataTest("submit").click().pause();
-    // cy.getDataTest("firstName").should('have.value','');
   });
 });
