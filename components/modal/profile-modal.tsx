@@ -63,7 +63,7 @@ const ProfileModal = ({
     );
     if(response.ok){
       const {url, fields} = await response.json();
-      console.log(url);
+      if(url){console.log('success on fields')};
       const formData = new FormData();
       // Object.entries(fields).forEach
     }

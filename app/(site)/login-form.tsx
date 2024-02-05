@@ -118,7 +118,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <h2 data-test="header">Zutopia</h2>
+      <h2 data-test="fundamental-header">Zutopia</h2>
       <p className="text-3xl font-bold tracking-tight mt-6">
         Sign in to your account
       </p>
