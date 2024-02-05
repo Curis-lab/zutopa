@@ -82,7 +82,6 @@ export function FormField({
         name={htmlFor}
         className="w-full p-2 rounded-xl my-2 text-black"
         value={value}
-        data-test={dataTest}
         disabled={disabled}
       />
     ),
@@ -98,7 +97,6 @@ export function FormField({
           name={htmlFor}
           className="w-full p-2 rounded-xl my-2 text-black"
           value={value}
-          data-test={dataTest}
           disabled={disabled}
         />
         <div className="text-2xl absolute top-4 right-5 text-black">
@@ -109,7 +107,7 @@ export function FormField({
   };
 
   return (
-    <>
+    <div data-test={dataTest}>
       <label htmlFor={htmlFor} className="font-light">
         {label}
       </label>
@@ -119,6 +117,6 @@ export function FormField({
       <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full">
         {errorText || ""}
       </div>
-    </>
+    </div>
   );
 }

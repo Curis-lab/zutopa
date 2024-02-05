@@ -126,7 +126,7 @@ const LoginForm = () => {
         {!isLogin && (
           <>
             <FormField
-              dataTest="firstName"
+              dataTest="formfield-firstname"
               htmlFor="firstName"
               label="First Name"
               value={formData.firstName}
@@ -145,6 +145,7 @@ const LoginForm = () => {
           </>
         )}
         <FormField
+          dataTest="formfield-email"
           htmlFor="email"
           label="Email"
           value={formData.email}
@@ -165,7 +166,7 @@ const LoginForm = () => {
           type="submit"
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
           onClick={onSubmit}
-          data-test="submit"
+          data-test="submit-button"
         >
           {isLogin? "Sign in" : "Register"}
         </button>
