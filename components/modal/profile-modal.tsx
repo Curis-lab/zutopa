@@ -60,31 +60,30 @@ const ProfileModal = ({
         body: JSON.stringify({ filename: file.name, contentType: file.type }),
       }
     );
-    if(response.ok){
-      const {url, fields} = await response.json();
-      if(url){console.log('success on fields')};
+    if (response.ok) {
+      const { url, fields } = await response.json();
       const formData = new FormData();
       // Object.entries(fields).forEach
+      Object.entries(fields).forEach(([key, value]) => {
+        formData.append(key, value as string);
+      });
+      formData.append("file", file);
+
+      const uploadResponse = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (uploadResponse.ok) {
+        console.log("upload successfully!");
+      } else {
+        console.log("Failed go get presigned URL");
+      }
+      setUploading(false);
     }
     // if (response.ok) {
     //   const { url, fields } = await response.json();
     //   const formData = new FormData();
-    //   Object.entries(fields).forEach(([key, value]) => {
-    //     formData.append(key, value as string);
-    //   });
-    //   formData.append("file", file);
-
-    //   const uploadResponse = await fetch(url, {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-
-    //   if (uploadResponse.ok) {
-    //     console.log("upload successfully!");
-    //   } else {
-    //     console.log("Failed go get presigned URL");
-    //   }
-    //   setUploading(false);
     // }
   };
 
@@ -130,7 +129,9 @@ const ProfileModal = ({
           onChange={(e) => handleSubmitChange(e)}
           accept="image/*"
         />
-        <button type="submit" disabled={uploading}>Submit</button>
+        <button type="submit" disabled={uploading}>
+          Submit
+        </button>
       </form>
       <div className="text-xs font-semibold text-center">formError</div>
       <div className="flex">

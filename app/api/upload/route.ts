@@ -20,6 +20,7 @@ export async function POST(request: Request) {
       },
       Expires: 600,
     });
+    console.log('successful uploaded on aws');
     return Response.json({ url, fields });
   } catch (errors: any) {
     return Response.json({ error: errors.message });

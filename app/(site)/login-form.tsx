@@ -12,6 +12,7 @@ import {
   validateName,
   validatePassword,
 } from "@/libs/validators";
+import Home from "../home/page";
 
 //testing for these code
 //must check Filefield red noti and data connected
@@ -41,9 +42,12 @@ const LoginForm = () => {
 
   const [errors, setErrors] = useState(defaultErrors);
 
+  function returnHome(){
+    router.push("/home");
+  }
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/home");
+      returnHome();
     }
   }, [session?.status]);
 
@@ -99,7 +103,7 @@ const LoginForm = () => {
           }
           if (callback?.ok) {
             toast.success("Logged in!");
-            router.push("/home");
+            returnHome();
           }
         })
         .finally(() => setIsLoading(false));

@@ -1,7 +1,7 @@
 describe("Login Form Test", () => {
   it("Red Notification Appear on Email Box", () => {
     cy.visit("/");
-    cy.get('[dataTest="formfield-email"]')
+    cy.get('[dataTest="formfield-email"]');
     cy.get('[data-test="submit-button"]').click().pause();
   });
   it("Fundamental Testing Title", () => {
