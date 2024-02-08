@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { ChangeEvent, useState } from "react";
 
 import { FormField } from "../form-field";
@@ -19,27 +18,6 @@ const ProfileModal = ({
     profilePicture,
   });
 
-  const [selectedImage, setSelectImage] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File>();
-
-  const onSubmit = async () => {
-    if (!selectedFile) {
-      return null;
-    }
-    console.log("From selected File -> ", selectedFile);
-    const formData = new FormData();
-    formData.append("profile-pic", selectedFile);
-    const { data } = await axios.post("/api/profilePic", formData);
-    console.log("form on Submit button ---->", data);
-  };
-
-  function handleChangeUpload(e: EventTarget & HTMLInputElement) {
-    if (e.files) {
-      setSelectImage(URL.createObjectURL(e.files[0]));
-      setSelectedFile(e.files[0]);
-    }
-  }
-
   const [file, setFile] = useState<File>();
   const [uploading, setUploading] = useState(false);
 
@@ -50,41 +28,23 @@ const ProfileModal = ({
     }
     setUploading(true);
 
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_BASE_URL + "/api/upload",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ filename: file.name, contentType: file.type }),
-      }
-    );
-    if (response.ok) {
-      const { url, fields } = await response.json();
-      const formData = new FormData();
-      // Object.entries(fields).forEach
-      Object.entries(fields).forEach(([key, value]) => {
-        formData.append(key, value as string);
-      });
-      formData.append("file", file);
+    const formData = new FormData();
+    formData.append("profile-pic", file);
 
-      const uploadResponse = await fetch(url, {
+    try {
+      const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
-      if (uploadResponse.ok) {
-        console.log("upload successfully!");
-      } else {
-        console.log("Failed go get presigned URL");
-      }
+      //data response
+      const data = await response.json();
+      console.log(data);
+      setUploading(false);
+    } catch (error) {
+      console.log(error);
       setUploading(false);
     }
-    // if (response.ok) {
-    //   const { url, fields } = await response.json();
-    //   const formData = new FormData();
-    // }
   };
 
   //success on these part
@@ -99,31 +59,7 @@ const ProfileModal = ({
       <h2 className="text-4xl font-semibold text-blue-600 text-center mb-4">
         Your Profile
       </h2>
-      {/* <form onSubmit={handleSubmit} className="bg-blue-900 p-10">
-        <input
-          id="file"
-          type="file"
-          onChange={({ target }) => handleSubmitChange(target)}
-          accept="image/*"
-        />
-      </form>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={({ target }) => handleChangeUpload(target)}
-      />
-      <div>
-        {selectedImage ? (
-          <img src={selectedImage} alt="" className="w-24 h-23 rounded-full" />
-        ) : (
-          <span></span>
-        )}
-      </div>
-
-      <button onClick={onSubmit} className="bg-blue-200 p-10 rounded-lg">
-        ONSUBMIT
-      </button> */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col p-10 bg-blue-300">
         <input
           type="file"
           onChange={(e) => handleSubmitChange(e)}
