@@ -14,7 +14,9 @@ export const dynamic = "force-dynamic";
 async function uploadFilesToS3(file: Buffer, fileName: string) {
   const fileBuffer = file;
 
+  console.log(fileBuffer);
   //!Error is happening here
+  //my consideration is that buffer is sending not correctly
   const params = {
     Bucket: process.env.ZUDO_BUCKET_NAME,
     Key: `${fileName}`,
