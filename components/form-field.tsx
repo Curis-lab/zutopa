@@ -14,7 +14,6 @@ interface FormFieldProps {
   disabled?:boolean
 }
 
-
 export function FormField({
   htmlFor,
   label,
@@ -31,31 +30,13 @@ export function FormField({
     setErrorText(error);
   }, [error]);
 
-  const hidePassword = {
-    type: "password",
-    visible: false,
-  };
-
-  const [showPassword, setShowPassword] = useState<typeof hidePassword>(hidePassword);
-
-  const changeTypeEvent = () => {
-    if (showPassword.visible) {
-      setShowPassword((form) => ({ ...form, type: "password", visible: false }));
-    }
-    if (!showPassword.visible) {
-      setShowPassword((form) => ({
-        ...form,
-        type: "text",
-        visible: true,
-      }));
-    }
-  };
+  const [showPassword, setShowPassword] = useState({type:'password', visible: false});
 
   const toggleEvent = () => {
     if (!showPassword.visible) {
       return (
         <AiFillEyeInvisible
-          onClick={()=>changeTypeEvent()}
+          onClick={()=>setShowPassword((form)=>({...form, type:"text", visible: true}))}
           className="cursor-pointer"
         />
       );
@@ -63,14 +44,14 @@ export function FormField({
     if (showPassword.visible) {
       return (
         <AiFillEye
-          onClick={() => changeTypeEvent()}
+          onClick={() => setShowPassword((form)=>({...form,type:"password", visible: false}))}
           className="cursor-pointer"
         />
       );
     }
   };
 
-  const inputFactory = {
+  const input_method = {
     text: (
       <input
         onChange={(e) => {
@@ -82,7 +63,6 @@ export function FormField({
         name={htmlFor}
         className="w-full p-2 rounded-xl my-2 text-black"
         value={value}
-        data-test={dataTest}
         disabled={disabled}
       />
     ),
@@ -98,7 +78,6 @@ export function FormField({
           name={htmlFor}
           className="w-full p-2 rounded-xl my-2 text-black"
           value={value}
-          data-test={dataTest}
           disabled={disabled}
         />
         <div className="text-2xl absolute top-4 right-5 text-black">
@@ -109,16 +88,16 @@ export function FormField({
   };
 
   return (
-    <>
+    <div data-test={dataTest}>
       <label htmlFor={htmlFor} className="font-light">
         {label}
       </label>
       <div className="flex relative">
-        {type === "text" ? inputFactory.text : inputFactory.password}
+        {type === "text" ? input_method.text : input_method.password}
       </div>
       <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full">
         {errorText || ""}
       </div>
-    </>
+    </div>
   );
 }

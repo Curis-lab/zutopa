@@ -12,6 +12,7 @@ import {
   validateName,
   validatePassword,
 } from "@/libs/validators";
+import Home from "../home/page";
 
 //testing for these code
 //must check Filefield red noti and data connected
@@ -41,9 +42,12 @@ const LoginForm = () => {
 
   const [errors, setErrors] = useState(defaultErrors);
 
+  function returnHome(){
+    router.push("/home");
+  }
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/home");
+      returnHome();
     }
   }, [session?.status]);
 
@@ -99,7 +103,7 @@ const LoginForm = () => {
           }
           if (callback?.ok) {
             toast.success("Logged in!");
-            router.push("/home");
+            returnHome();
           }
         })
         .finally(() => setIsLoading(false));
@@ -126,7 +130,7 @@ const LoginForm = () => {
         {!isLogin && (
           <>
             <FormField
-              dataTest="firstName"
+              dataTest="formfield-firstname"
               htmlFor="firstName"
               label="First Name"
               value={formData.firstName}
@@ -145,6 +149,7 @@ const LoginForm = () => {
           </>
         )}
         <FormField
+          dataTest="formfield-email"
           htmlFor="email"
           label="Email"
           value={formData.email}
@@ -165,7 +170,7 @@ const LoginForm = () => {
           type="submit"
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
           onClick={onSubmit}
-          data-test="submit"
+          data-test="submit-button"
         >
           {isLogin? "Sign in" : "Register"}
         </button>
