@@ -130,13 +130,14 @@ const LoginForm = () => {
         {!isLogin && (
           <>
             <FormField
-              dataTest="formfield-firstname"
               htmlFor="firstName"
               label="First Name"
               value={formData.firstName}
               onChange={(e) => handleChange(e, "firstName")}
               disabled={isLoading}
+
               error={errors?.firstName}
+              errorNoti="formfield-firstname"
             />
             <FormField
               htmlFor="lastName"
@@ -149,13 +150,15 @@ const LoginForm = () => {
           </>
         )}
         <FormField
-          dataTest="formfield-email"
           htmlFor="email"
           label="Email"
           value={formData.email}
           onChange={(e) => handleChange(e, "email")}
           error={errors?.email}
           disabled={isLoading}
+          
+          errorNoti="email-error"
+          messageTest="email-input"
         />
         <FormField
           htmlFor="password"
@@ -165,12 +168,14 @@ const LoginForm = () => {
           onChange={(e) => handleChange(e, "password")}
           error={errors?.password}
           disabled={isLoading}
+          errorNoti="password-error"
+          messageTest="password-input"
         />
         <button
           type="submit"
           className="w-full p-2 rounded-xl mt-6 bg-green-400 transition duration-300 ease-in-out hover:bg-teal-400 hover:-translate-y-1"
           onClick={onSubmit}
-          data-test="submit-button"
+          data-cy="submit"
         >
           {isLogin? "Sign in" : "Register"}
         </button>

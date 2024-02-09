@@ -10,8 +10,9 @@ interface FormFieldProps {
   value: any;
   onChange?: (...args: any) => any;
   error?: string;
-  dataTest?: string;
-  disabled?:boolean
+  errorNoti?: string;
+  disabled?:boolean;
+  messageTest?:string
 }
 
 export function FormField({
@@ -21,8 +22,9 @@ export function FormField({
   value,
   onChange = () => {},
   error = "",
-  dataTest,
-  disabled
+  errorNoti,
+  disabled,
+  messageTest
 }: FormFieldProps) {
   const [errorText, setErrorText] = useState(error);
 
@@ -64,6 +66,7 @@ export function FormField({
         className="w-full p-2 rounded-xl my-2 text-black"
         value={value}
         disabled={disabled}
+        data-cy={messageTest}
       />
     ),
     password: (
@@ -88,14 +91,14 @@ export function FormField({
   };
 
   return (
-    <div data-test={dataTest}>
+    <div>
       <label htmlFor={htmlFor} className="font-light">
         {label}
       </label>
       <div className="flex relative">
         {type === "text" ? input_method.text : input_method.password}
       </div>
-      <div className="text-xs font-semibold text-center tracking-wide text-red-500 w-full">
+      <div data-cy={errorNoti} className="text-xs font-semibold text-center tracking-wide text-red-500 w-full">
         {errorText || ""}
       </div>
     </div>
