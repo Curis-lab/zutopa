@@ -11,9 +11,6 @@ const bg_colors = {
   BG_BLUE: "\x1b[44m",
 };
 
-export const highlight = ({
-  message,
-  color = 'BG_GREEN',
-}: IColor): void => {
+export const highlight = ({ message, color = "BG_GREEN" }: IColor): void => {
   console.log(bg_colors[color] + "\x1b[37m" + message + RESET);
 };

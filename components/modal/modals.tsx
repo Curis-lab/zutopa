@@ -15,7 +15,7 @@ const Modal = ({ children, isOpen, ariaLabel, className }: IModal) => {
   const route = useRouter();
   const pathName = usePathname();
 
-  if (!isOpen || (pathName === "/home")) return null;
+  if (!isOpen || pathName === "/home") return null;
 
   return (
     <Portal wrapperId="modal">

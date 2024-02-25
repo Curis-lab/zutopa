@@ -7,7 +7,7 @@ declare global {
        * Logs in E2E user
        * @returns void
        */
-      getDataTest: (dataTest:string) => any;
+      getDataTest: (dataTest: string) => any;
     }
   }
 }

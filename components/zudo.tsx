@@ -29,7 +29,6 @@ const colorMap = {
   YELLOW: "text-yellow-300",
 };
 const Zudo = ({ profile, zuto }: IZudo) => {
-
   return (
     <>
       <div

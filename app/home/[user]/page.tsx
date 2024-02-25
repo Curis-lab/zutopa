@@ -1,7 +1,7 @@
-const ZudoPage = ({params:{user}}:{params:{user:string}}) => {
-  return ( <div>{user}</div> );
-}
- 
+const ZudoPage = ({ params: { user } }: { params: { user: string } }) => {
+  return <div>{user}</div>;
+};
+
 export default ZudoPage;
 // =======
 // import { getUserByParams } from "@/app/actions/getCurrentUser";

@@ -23,6 +23,6 @@ export async function uploadFilesToS3(opts: {
           Body: content,
         })
         .promise();
-    })
+    }),
   );
 }

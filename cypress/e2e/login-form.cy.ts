@@ -6,7 +6,7 @@ describe("Login Form Test", () => {
   it("Fundamental Testing Title", () => {
     cy.get('[data-test="fundamental-header"]').should(
       "contain.text",
-      "Zutopia"
+      "Zutopia",
     );
   });
 
@@ -20,6 +20,6 @@ describe("Login Form Test", () => {
     cy.get('[data-cy="email-input"]').type("nyanlin@gmail.com");
     cy.get('[data-cy="password-input"]').type("nyanlin");
     cy.get('[data-cy="submit"]').click();
-    cy.url().should('match',/\/home$/);
+    cy.url().should("match", /\/home$/);
   });
 });

@@ -21,14 +21,13 @@ import Home from "../home/page";
 const DEFAULT_FORM = { email: "", password: "", firstName: "", lastName: "" };
 
 const LoginForm = () => {
-  
   const session = useSession();
   const router = useRouter();
   const firstLoad = useRef(true);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [formData, setFormData] = useState(DEFAULT_FORM);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   const defaultErrors = {
     email: "",
     password: "",
@@ -42,7 +41,7 @@ const LoginForm = () => {
 
   const [errors, setErrors] = useState(defaultErrors);
 
-  function returnHome(){
+  function returnHome() {
     router.push("/home");
   }
   useEffect(() => {
@@ -55,7 +54,7 @@ const LoginForm = () => {
     (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
       setFormData((form) => ({ ...form, [field]: e.target.value }));
     },
-    [formData, setFormData]
+    [formData, setFormData],
   );
 
   const onSubmit = async () => {
@@ -65,8 +64,8 @@ const LoginForm = () => {
       password: validatePassword(formData.password) as string,
       ...(!isLogin
         ? {
-            firstName: validateName(formData.firstName) as string || "",
-            lastName: validateName(formData.lastName) as string || "",
+            firstName: (validateName(formData.firstName) as string) || "",
+            lastName: (validateName(formData.lastName) as string) || "",
           }
         : {}),
     }));
@@ -91,7 +90,7 @@ const LoginForm = () => {
           setIsLoading(false);
         });
     }
-    function signInFunction(formData: typeof DEFAULT_FORM):any {
+    function signInFunction(formData: typeof DEFAULT_FORM): any {
       return signIn("credentials", {
         email: formData?.email,
         password: formData?.password,
@@ -111,10 +110,10 @@ const LoginForm = () => {
   };
 
   const toggleVariant = useCallback(() => {
-    setIsLogin(prev=>!prev)
+    setIsLogin((prev) => !prev);
     setErrors(defaultErrors);
     setFormData(DEFAULT_FORM);
-  }, [isLogin,setIsLogin]);
+  }, [isLogin, setIsLogin]);
 
   useEffect(() => {
     firstLoad.current = false;
@@ -135,7 +134,6 @@ const LoginForm = () => {
               value={formData.firstName}
               onChange={(e) => handleChange(e, "firstName")}
               disabled={isLoading}
-
               error={errors?.firstName}
               errorNoti="formfield-firstname"
             />
@@ -156,7 +154,6 @@ const LoginForm = () => {
           onChange={(e) => handleChange(e, "email")}
           error={errors?.email}
           disabled={isLoading}
-          
           errorNoti="email-error"
           messageTest="email-input"
         />
@@ -177,7 +174,7 @@ const LoginForm = () => {
           onClick={onSubmit}
           data-cy="submit"
         >
-          {isLogin? "Sign in" : "Register"}
+          {isLogin ? "Sign in" : "Register"}
         </button>
         <div className="mt-6">
           <div className="relative">
@@ -192,11 +189,7 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-white">
-          <div>
-            {isLogin
-              ? "New to zutopia?"
-              : "Already have an Account"}
-          </div>
+          <div>{isLogin ? "New to zutopia?" : "Already have an Account"}</div>
           <div onClick={toggleVariant} className="underline cursor-pointer">
             {isLogin ? "Create an account." : "Login"}
           </div>

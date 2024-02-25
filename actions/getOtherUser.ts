@@ -26,6 +26,6 @@ export const getAllUser = async () => {
   return await db.user.findMany({});
 };
 
-export const getRecentUser = ()=>{
+export const getRecentUser = () => {
   return null;
-}
+};

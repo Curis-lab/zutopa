@@ -1,11 +1,11 @@
 import { db } from "@/libs/prisma.server";
-import { Prisma} from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { getProfileById } from "./getCurrentUser";
 
 export const getFilteredZudos = async (
   userId: string,
   sortFilter: Prisma.ZutoOrderByWithRelationInput,
-  whereFilter: Prisma.ZutoWhereInput
+  whereFilter: Prisma.ZutoWhereInput,
 ) => {
   return await db.zuto.findMany({
     select: {
@@ -41,7 +41,7 @@ export function extractProfileByMessageId(messageId: string) {
         return null;
       }
       // const profile = getProfile(result.recipientId);
-      
+
       return {
         firstName: "orange",
         lastName: "apple",

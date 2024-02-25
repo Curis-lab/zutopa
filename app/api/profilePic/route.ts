@@ -12,12 +12,10 @@ const s3 = new S3({
   secretAccessKey: process.env.ZUDO_SECRET_ACCESS_KEY,
 });
 
-
 export async function POST(request: Request) {
   const body = await request.body;
   console.log(body);
   return NextResponse.json(body);
 }
-
 
 // references: https://github.com/vercel/examples/blob/main/solutions/aws-s3-image-upload/app/page.tsx

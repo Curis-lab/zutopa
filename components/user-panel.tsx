@@ -32,11 +32,9 @@ export function UserPanel({ users }: props) {
               key={user.id}
               profile={user.profile}
               className="h-24 w-24 mx-auto flex-shrink-0"
-              onClick={
-                () => {
-                  router.push(`/home/${user.id}`);
-                }
-              }
+              onClick={() => {
+                router.push(`/home/${user.id}`);
+              }}
             />
           ))}
       </div>

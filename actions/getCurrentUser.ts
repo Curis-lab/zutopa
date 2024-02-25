@@ -17,15 +17,15 @@ export const getCurrentUser = async () => {
 };
 
 type userProfile = {
-  firstName: string,
+  firstName: string;
   lastName: string;
   department: string;
-}
+};
 
-export const getCurrentUserProfile = async()=>{
+export const getCurrentUserProfile = async () => {
   const currentUser = await getCurrentUser();
-  return {firstName: currentUser?.profile.firstName}
-}
+  return { firstName: currentUser?.profile.firstName };
+};
 
 export const getUserByParams = async (params: string) => {
   const recipientData = await db.user.findUnique({
@@ -64,4 +64,3 @@ export const ProduceZudo = async (zuto: Zuto) => {
 
   return { message: zuto.message, style: zuto.style };
 };
-

@@ -11,8 +11,8 @@ interface FormFieldProps {
   onChange?: (...args: any) => any;
   error?: string;
   errorNoti?: string;
-  disabled?:boolean;
-  messageTest?:string
+  disabled?: boolean;
+  messageTest?: string;
 }
 
 export function FormField({
@@ -24,7 +24,7 @@ export function FormField({
   error = "",
   errorNoti,
   disabled,
-  messageTest
+  messageTest,
 }: FormFieldProps) {
   const [errorText, setErrorText] = useState(error);
 
@@ -32,13 +32,22 @@ export function FormField({
     setErrorText(error);
   }, [error]);
 
-  const [showPassword, setShowPassword] = useState({type:'password', visible: false});
+  const [showPassword, setShowPassword] = useState({
+    type: "password",
+    visible: false,
+  });
 
   const toggleEvent = () => {
     if (!showPassword.visible) {
       return (
         <AiFillEyeInvisible
-          onClick={()=>setShowPassword((form)=>({...form, type:"text", visible: true}))}
+          onClick={() =>
+            setShowPassword((form) => ({
+              ...form,
+              type: "text",
+              visible: true,
+            }))
+          }
           className="cursor-pointer"
         />
       );
@@ -46,7 +55,13 @@ export function FormField({
     if (showPassword.visible) {
       return (
         <AiFillEye
-          onClick={() => setShowPassword((form)=>({...form,type:"password", visible: false}))}
+          onClick={() =>
+            setShowPassword((form) => ({
+              ...form,
+              type: "password",
+              visible: false,
+            }))
+          }
           className="cursor-pointer"
         />
       );
@@ -98,7 +113,10 @@ export function FormField({
       <div className="flex relative">
         {type === "text" ? input_method.text : input_method.password}
       </div>
-      <div data-cy={errorNoti} className="text-xs font-semibold text-center tracking-wide text-red-500 w-full">
+      <div
+        data-cy={errorNoti}
+        className="text-xs font-semibold text-center tracking-wide text-red-500 w-full"
+      >
         {errorText || ""}
       </div>
     </div>

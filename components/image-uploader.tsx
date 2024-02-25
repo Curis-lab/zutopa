@@ -9,7 +9,7 @@ interface props {
 
 const ImageUploader = ({ onChange, imageUrl }: props) => {
   const [draggingOver, setDragginOver] = useState(true);
-  const fileInputRef = useRef<HTMLInputElement|null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dropRef = useRef(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,12 +57,12 @@ const ImageUploader = ({ onChange, imageUrl }: props) => {
         </p>
       }
       <input
-        type='file'
+        type="file"
         ref={fileInputRef}
         onChange={handleChange}
         className="hidden"
         accept="image/*"
-        value={''}
+        value={""}
       />
     </div>
   );

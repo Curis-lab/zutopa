@@ -37,7 +37,7 @@ const ZutoModal = ({ recipient }: IZudoModal) => {
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: string
+    field: string,
   ) => {
     if (field === "message") {
       setFormData((data) => ({ ...data, [field]: e.target.value }));
